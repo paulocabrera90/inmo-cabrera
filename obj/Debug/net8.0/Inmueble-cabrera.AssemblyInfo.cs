@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("Inmueble-cabrera")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+6c41e5e77076e1090114f0f7def003627b0bb747")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+d210e4355be5af3fb7a1ebf06de5d34535da2cb7")]
 [assembly: System.Reflection.AssemblyProductAttribute("Inmueble-cabrera")]
 [assembly: System.Reflection.AssemblyTitleAttribute("Inmueble-cabrera")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
