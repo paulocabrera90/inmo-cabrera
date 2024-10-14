@@ -1,5 +1,7 @@
 using InmobiliariaCA.Models;
 using Inmueble_cabrera.Data;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Swashbuckle.AspNetCore.Annotations;
@@ -8,6 +10,7 @@ using Swashbuckle.AspNetCore.Annotations;
 namespace Inmueble_cabrera.Controllers;
 
 [Route("api/[controller]")]
+[Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
 [ApiController]
 public class PropietariosController : ControllerBase
 {
