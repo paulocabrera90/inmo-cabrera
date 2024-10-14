@@ -76,3 +76,4 @@
 /home/paulo/Documentos/Facultad/Lab III/DotNet/Inmueble-cabrera/obj/Debug/net8.0/Inmueble-cabrera.pdb
 /home/paulo/Documentos/Facultad/Lab III/DotNet/Inmueble-cabrera/obj/Debug/net8.0/Inmueble-cabrera.genruntimeconfig.cache
 /home/paulo/Documentos/Facultad/Lab III/DotNet/Inmueble-cabrera/obj/Debug/net8.0/ref/Inmueble-cabrera.dll
+/home/paulo/Documentos/Facultad/Lab III/DotNet/Inmueble-cabrera/bin/Debug/net8.0/BCrypt.Net-Next.dll
