@@ -1,123 +1,92 @@
-using InmobiliariaCA.Models;
-using Inmueble_cabrera.Data;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using InmobiliariaCA.Models;
 using Microsoft.EntityFrameworkCore;
-using Swashbuckle.AspNetCore.Annotations;
-
+using Inmueble_cabrera.Models;
 
 namespace Inmueble_cabrera.Controllers;
 
 [Route("api/[controller]")]
-[Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
 [ApiController]
 public class PropietariosController : ControllerBase
 {
-	private readonly DataContext context;
-	private readonly IConfiguration config;
-	private readonly IWebHostEnvironment environment;
+    private readonly IPropietariosService _service;
 
-	public PropietariosController(DataContext context, IConfiguration config, IWebHostEnvironment env)
-	{
-		this.context = context;
-		this.config = config;
-		environment = env;
-	}
+    public PropietariosController(IPropietariosService service)
+    {
+        _service = service;
+    }
 
-	[HttpGet]
-	//[SwaggerOperation(Summary = "Retrieves the current weather forecast")]
-	public async Task<IActionResult> GetPropietarios()
-	{
-		var propietarios = await context.Propietarios.ToListAsync();
-		return Ok(propietarios);
-	}
+    [HttpGet]
+    public async Task<IActionResult> GetPropietarios()
+    {
+        var propietarios = await _service.GetAllPropietariosAsync();
+        return Ok(propietarios);
+    }
 
-	[HttpGet("{id}")]
-	//[SwaggerOperation(Summary = "Retrieves the current weather forecast")]
-	public async Task<IActionResult> GetPropietario(int id)
-	{
-		var propietario = await context.Propietarios.FirstOrDefaultAsync(p => p.Id == id);
+    [HttpGet("{id}")]
+    public async Task<IActionResult> GetPropietario(int id)
+    {
+        var propietario = await _service.GetPropietarioByIdAsync(id);
+        if (propietario == null)
+        {
+            return NotFound();
+        }
+        return Ok(propietario);
+    }
 
-		if (propietario == null)
-		{
-			return NotFound();
-		}
+    [HttpPost]
+    public async Task<IActionResult> CreatePropietario([FromBody] Propietario propietario)
+    {
+        if (!ModelState.IsValid)
+        {
+            return BadRequest(ModelState);
+        }
 
-		return Ok(propietario);
-	}
+        var createdPropietario = await _service.CreatePropietarioAsync(propietario);
+        return CreatedAtAction(nameof(GetPropietario), new { id = createdPropietario.Id }, createdPropietario);
+    }
 
-	[HttpPost]
-	//[SwaggerOperation(Summary = "Crea un nuevo propietario")]
-	public async Task<IActionResult> CreatePropietario([FromBody] Propietario propietario)
-	{
-		if (!ModelState.IsValid)
-		{
-			return BadRequest(ModelState);
-		}
+    [HttpPut("{id}")]
+    public async Task<IActionResult> UpdatePropietario(int id, [FromBody] Propietario propietario)
+    {
+        if (id != propietario.Id)
+        {
+            return BadRequest("ID mismatch");
+        }
 
-		context.Propietarios.Add(propietario);
-		await context.SaveChangesAsync();
+        if (!_service.PropietarioExists(id))
+        {
+            return NotFound();
+        }
 
-		return CreatedAtAction(nameof(GetPropietario), new { id = propietario.Id }, propietario);
-	}
+        try
+        {
+            await _service.UpdatePropietarioAsync(propietario);
+        }
+        catch (DbUpdateConcurrencyException)
+        {
+            if (!_service.PropietarioExists(id))
+            {
+                return NotFound();
+            }
+            else
+            {
+                throw;
+            }
+        }
 
-	[HttpPut("{id}")]
-	//[SwaggerOperation(Summary = "Actualiza un propietario existente")]
-	public async Task<IActionResult> UpdatePropietario(int id, [FromBody] Propietario propietario)
-	{
-		if (id != propietario.Id)
-		{
-			return BadRequest("ID de propietario no coincide");
-		}
+        return NoContent();
+    }
 
-		if (!context.Propietarios.Any(e => e.Id == id))
-		{
-			return NotFound();
-		}
+    [HttpDelete("{id}")]
+    public async Task<IActionResult> DeletePropietario(int id)
+    {
+        if (!_service.PropietarioExists(id))
+        {
+            return NotFound();
+        }
 
-		context.Entry(propietario).State = EntityState.Modified;
-
-		try
-		{
-			await context.SaveChangesAsync();
-		}
-		catch (DbUpdateConcurrencyException)
-		{
-			if (!PropietarioExists(id))
-			{
-				return NotFound();
-			}
-			else
-			{
-				throw;
-			}
-		}
-
-		return NoContent();
-	}
-
-/// <response code="201">Returns the newly created item</response>
-/// <response code="400">If the item is null</response>
-	[HttpDelete("{id}")]
-	//[SwaggerOperation(Summary = "Elimina un propietario existente")]
-	public async Task<IActionResult> DeletePropietario(int id)
-	{
-		var propietario = await context.Propietarios.FindAsync(id);
-		if (propietario == null)
-		{
-			return NotFound();
-		}
-
-		context.Propietarios.Remove(propietario);
-		await context.SaveChangesAsync();
-
-		return NoContent();
-	}
-
-	private bool PropietarioExists(int id)
-	{
-		return context.Propietarios.Any(e => e.Id == id);
-	}
-
+        await _service.DeletePropietarioAsync(id);
+        return NoContent();
+    }
 }
