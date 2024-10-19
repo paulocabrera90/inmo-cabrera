@@ -51,7 +51,7 @@ public class PropietariosController : ControllerBase
         return CreatedAtAction(nameof(GetPropietario), new { id = createdPropietario.Id }, createdPropietario);
     }
 
-    [HttpPatch("{id}")]
+    [HttpPut("{id}")]
     public async Task<IActionResult> UpdatePropietario(int id, [FromBody] Propietario propietario)
     {
         var existingPropietario = await _repository.GetPropietarioByIdAsync(id);

@@ -16,10 +16,10 @@ public class PropietarioMapper
             Apellido = propietario.Apellido,
             Email = propietario.Email,
             Direccion = propietario.Direccion,
-            FechaCreacion = propietario.Fecha_Creacion.ToString("yyyy-MM-ddTHH:mm:ss"),
-            FechaActualizacion = propietario.Fecha_Actualizacion.ToString("yyyy-MM-ddTHH:mm:ss"),
-            TelefonoArea = propietario.Telefono_Area,
-            TelefonoNumero = propietario.Telefono_Numero
+            Fecha_creacion = propietario.Fecha_Creacion.ToString("yyyy-MM-ddTHH:mm:ss"),
+            Fecha_actualizacion = propietario.Fecha_Actualizacion.ToString("yyyy-MM-ddTHH:mm:ss"),
+            Telefono_area = propietario.Telefono_Area,
+            Telefono_numero = propietario.Telefono_Numero
         };
     }
 }
