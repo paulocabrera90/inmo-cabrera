@@ -36,7 +36,19 @@ public class AuthenticationController : ControllerBase
 
             var tokenService = new TokenService(context, config, environment);
             var token = tokenService.GenerateJwtToken(user.Email);
-            return Ok(new { Token = token });
+
+            var result = new
+                {
+                    data = new
+                    {
+                        id = user.Id,
+                        nombre = user.Nombre, 
+                        apellido = user.Apellido,
+                        email = user.Email
+                    },
+                    tokenSession = token
+                };
+            return Ok(result);
         }
         catch (Exception ex)
         { 

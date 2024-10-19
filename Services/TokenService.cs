@@ -24,13 +24,13 @@ public class TokenService
         {
         new Claim(JwtRegisteredClaimNames.Sub, email),
         new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString())
-    };
+        };
 
         var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(config["Jwt:Key"]  ?? string.Empty));
         var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
 
         var token = new JwtSecurityToken(
-            expires: DateTime.Now.AddHours(1),
+            expires: DateTime.Now.AddMinutes(20),
             claims: claims,
             signingCredentials: creds
         );

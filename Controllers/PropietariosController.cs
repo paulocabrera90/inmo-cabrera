@@ -2,36 +2,41 @@ using Microsoft.AspNetCore.Mvc;
 using InmobiliariaCA.Models;
 using Microsoft.EntityFrameworkCore;
 using Inmueble_cabrera.Models;
+using Inmueble_cabrera.Models.Mappers;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.JsonPatch;
 
 namespace Inmueble_cabrera.Controllers;
 
 [Route("api/[controller]")]
+[Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
 [ApiController]
 public class PropietariosController : ControllerBase
 {
-    private readonly IPropietariosService _service;
+    private readonly IPropietariosRepository _repository;
 
-    public PropietariosController(IPropietariosService service)
+    public PropietariosController(IPropietariosRepository repository)
     {
-        _service = service;
+        _repository = repository;
     }
 
     [HttpGet]
     public async Task<IActionResult> GetPropietarios()
     {
-        var propietarios = await _service.GetAllPropietariosAsync();
+        var propietarios = await _repository.GetAllPropietariosAsync();
         return Ok(propietarios);
     }
 
     [HttpGet("{id}")]
     public async Task<IActionResult> GetPropietario(int id)
     {
-        var propietario = await _service.GetPropietarioByIdAsync(id);
+        var propietario = await _repository.GetPropietarioByIdAsync(id);
         if (propietario == null)
         {
             return NotFound();
         }
-        return Ok(propietario);
+        return Ok(PropietarioMapper.ToMapper(propietario));
     }
 
     [HttpPost]
@@ -42,30 +47,37 @@ public class PropietariosController : ControllerBase
             return BadRequest(ModelState);
         }
 
-        var createdPropietario = await _service.CreatePropietarioAsync(propietario);
+        var createdPropietario = await _repository.CreatePropietarioAsync(propietario);
         return CreatedAtAction(nameof(GetPropietario), new { id = createdPropietario.Id }, createdPropietario);
     }
 
     [HttpPut("{id}")]
     public async Task<IActionResult> UpdatePropietario(int id, [FromBody] Propietario propietario)
     {
-        if (id != propietario.Id)
-        {
-            return BadRequest("ID mismatch");
-        }
-
-        if (!_service.PropietarioExists(id))
+        var existingPropietario = await _repository.GetPropietarioByIdAsync(id);
+        if (existingPropietario == null)
         {
             return NotFound();
         }
 
+        if (!ModelState.IsValid)
+        {
+            return BadRequest(ModelState);
+        }
+
+        if (!TryValidateModel(existingPropietario))
+        {
+            return BadRequest(ModelState);
+        }
+
         try
         {
-            await _service.UpdatePropietarioAsync(propietario);
+            existingPropietario = await _repository.ApplyChanges(existingPropietario, propietario);
+            await _repository.UpdatePropietarioAsync(existingPropietario);
         }
         catch (DbUpdateConcurrencyException)
         {
-            if (!_service.PropietarioExists(id))
+            if (!_repository.PropietarioExists(id))
             {
                 return NotFound();
             }
@@ -75,18 +87,19 @@ public class PropietariosController : ControllerBase
             }
         }
 
-        return NoContent();
+
+        return Ok(PropietarioMapper.ToMapper(existingPropietario));
     }
 
     [HttpDelete("{id}")]
     public async Task<IActionResult> DeletePropietario(int id)
     {
-        if (!_service.PropietarioExists(id))
+        if (!_repository.PropietarioExists(id))
         {
             return NotFound();
         }
 
-        await _service.DeletePropietarioAsync(id);
+        await _repository.DeletePropietarioAsync(id);
         return NoContent();
     }
 }
