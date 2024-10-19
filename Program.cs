@@ -8,6 +8,7 @@ using Microsoft.OpenApi.Models;
 
 var builder = WebApplication.CreateBuilder(args);
 
+builder.WebHost.UseUrls("http://*:5000");
 // Add services to the container.
 
 builder.Services.AddControllers();
@@ -33,14 +34,14 @@ builder.Services.AddSwaggerGen(c =>
             Url = new Uri("https://www.linkedin.com/in/pncabrera/")
         }
     });
-   /// c.EnableAnnotations();
+    //c.EnableAnnotations();
 });
 
 builder.Services.AddDbContext<Inmueble_cabrera.Data.DataContext>(options =>
     options.UseMySql(builder.Configuration.GetConnectionString("DefaultConnection"), new MySqlServerVersion(new Version(8, 0, 21))));
 
  // Asegúrate de registrar tu servicio aquí
-builder.Services.AddScoped<IPropietariosService, PropietariosService>();
+builder.Services.AddScoped<IPropietariosRepository, PropietariosService>();
 
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
     .AddJwtBearer(options =>
@@ -53,7 +54,6 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
             ValidateAudience = false
         };
     });
-
 
 var app = builder.Build();
 
@@ -69,10 +69,14 @@ if (app.Environment.IsDevelopment())
     
 }
 
+app.UseCors(x => x
+	.AllowAnyOrigin()
+	.AllowAnyMethod()
+	.AllowAnyHeader());
+    
 app.UseHttpsRedirection();
-
+app.UseAuthentication();
 app.UseAuthorization();
-
 app.MapControllers();
 
 app.Run();
