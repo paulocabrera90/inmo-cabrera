@@ -1,4 +1,4 @@
-namespace InmobiliariaCA.Models;
+namespace Inmueble_cabrera.Models;
 
 public class TipoInmuebleUso
 {

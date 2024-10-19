@@ -1,4 +1,4 @@
-using InmobiliariaCA.Models;
+using Inmueble_cabrera.Models;
 using Microsoft.AspNetCore.JsonPatch;
 
 namespace Inmueble_cabrera.Models;

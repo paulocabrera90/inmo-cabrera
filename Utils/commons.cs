@@ -1,3 +1,4 @@
+namespace Inmueble_cabrera.Utils;
 public class Commons
 {
     public static string CreatePasswordHash(string password)

@@ -1,7 +1,6 @@
-using InmobiliariaCA.Models;
 using Inmueble_cabrera.Data;
 using Inmueble_cabrera.Models;
-using Microsoft.AspNetCore.JsonPatch;
+using Inmueble_cabrera.Utils;
 using Microsoft.EntityFrameworkCore;
 
 namespace Inmueble_cabrera.Services;

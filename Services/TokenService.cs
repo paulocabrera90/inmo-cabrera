@@ -4,7 +4,7 @@ using Microsoft.IdentityModel.Tokens;
 using System.Text;
 using Inmueble_cabrera.Data;
 
-namespace InmobiliariaCA.Services;
+namespace Inmueble_cabrera.Services;
 public class TokenService
 {
     private DataContext context;

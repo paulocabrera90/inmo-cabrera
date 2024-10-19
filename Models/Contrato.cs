@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Globalization;
 
-namespace InmobiliariaCA.Models.ContratoModels;
+namespace Inmueble_cabrera.Models.ContratoModels;
 public class Contrato {
 
     public Contrato()

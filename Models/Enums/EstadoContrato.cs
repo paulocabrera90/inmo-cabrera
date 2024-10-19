@@ -1,6 +1,6 @@
 using System.ComponentModel.DataAnnotations;
 
-namespace InmobiliariaCA.Models;
+namespace Inmueble_cabrera.Models;
 
 public enum EstadoContrato
 {
