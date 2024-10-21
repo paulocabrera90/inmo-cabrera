@@ -30,6 +30,7 @@ public class AuthenticationController : ControllerBase
         try
         {
             var user = await context.Propietarios.FirstOrDefaultAsync(u => u.Email == loginView.Email);
+           
             if (user == null || !Commons.VerifyPassword(loginView.Password, user.Password))
             {
                 return Unauthorized("Invalid credentials.");
@@ -63,7 +64,7 @@ public class AuthenticationController : ControllerBase
     {
         try
         {
-            var user = await context.Propietarios.FirstOrDefaultAsync(u => u.Email == changePasswordView.Email && u.Id == changePasswordView.Id);
+            var user = await context.Propietarios.FirstOrDefaultAsync(u => u.Id == changePasswordView.Id);
 
             if (user == null || !Commons.VerifyPassword(changePasswordView.CurrentPassword, user.Password))
             {
