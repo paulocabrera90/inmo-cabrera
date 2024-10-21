@@ -1,7 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
-using InmobiliariaCA.Models;
-using Microsoft.EntityFrameworkCore;
 using Inmueble_cabrera.Models;
+using Microsoft.EntityFrameworkCore;
 using Inmueble_cabrera.Models.Mappers;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Authentication.JwtBearer;

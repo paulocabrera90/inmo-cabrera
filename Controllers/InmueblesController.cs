@@ -1,5 +1,5 @@
 using Microsoft.AspNetCore.Mvc;
-using InmobiliariaCA.Models;
+using Inmueble_cabrera.Models;
 using Microsoft.EntityFrameworkCore;
 using Inmueble_cabrera.Models;
 

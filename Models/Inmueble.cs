@@ -1,4 +1,4 @@
-namespace InmobiliariaCA.Models;
+namespace Inmueble_cabrera.Models;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 

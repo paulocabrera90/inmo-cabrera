@@ -1,6 +1,6 @@
 namespace Inmueble_cabrera.Data;
 
-using InmobiliariaCA.Models;
+using Inmueble_cabrera.Models;
 using Microsoft.EntityFrameworkCore;
 
 public class DataContext : DbContext  

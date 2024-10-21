@@ -1,7 +1,7 @@
-namespace InmobiliariaCA.Models;
+namespace Inmueble_cabrera.Models;
 using System;
 using System.ComponentModel.DataAnnotations;
-using InmobiliariaCA.Models.ContratoModels;
+using Inmueble_cabrera.Models.ContratoModels;
 
 public class Pago {
     public Pago()
