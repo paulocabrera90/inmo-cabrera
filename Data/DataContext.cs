@@ -10,9 +10,9 @@ public class DataContext : DbContext
 	{}
 
     public DbSet<Propietario> Propietarios { get; set; }
-	public DbSet<TipoInmueble> TipoInmueble { get; set; }
+	public DbSet<Tipo_Inmueble> Tipos_Inmueble { get; set; }
 	public DbSet<Inmueble> Inmuebles { get; set; }
-	public DbSet<TipoInmuebleUso> TipoInmuebleUso { get; set; }
+	public DbSet<Tipo_Inmueble_Uso> Tipos_Inmueble_Uso { get; set; }
 
 
 }

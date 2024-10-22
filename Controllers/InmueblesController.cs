@@ -1,12 +1,14 @@
 using Microsoft.AspNetCore.Mvc;
 using Inmueble_cabrera.Models;
 using Microsoft.EntityFrameworkCore;
-using Inmueble_cabrera.Models;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 
 namespace Inmueble_cabrera.Controllers;
 
 [Route("api/[controller]")]
 [ApiController]
+//[Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
 public class InmueblesController : ControllerBase
 {
     private readonly IInmueblesRepository _repository;
