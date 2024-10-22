@@ -3,6 +3,7 @@ using System.Security.Claims;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
 using Inmueble_cabrera.Data;
+using Inmueble_cabrera.Models;
 
 namespace Inmueble_cabrera.Services;
 public class TokenService
@@ -18,12 +19,14 @@ public class TokenService
         this.environment = environment;
     }
 
-    public string GenerateJwtToken(string email)
+    public string GenerateJwtToken(Propietario user)
     {
-        var claims = new[]
+        var claims = new List<Claim>
         {
-        new Claim(JwtRegisteredClaimNames.Sub, email),
-        new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString())
+        new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
+        new Claim(ClaimTypes.Email, user.Email),
+		new Claim("FullName", user.NombreCompleto()),
+		new Claim("Id_propietario", user.Id.ToString()),
         };
 
         var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(config["Jwt:Key"]  ?? string.Empty));

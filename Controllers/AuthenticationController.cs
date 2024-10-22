@@ -37,7 +37,7 @@ public class AuthenticationController : ControllerBase
             }
 
             var tokenService = new TokenService(context, config, environment);
-            var token = tokenService.GenerateJwtToken(user.Email);
+            var token = tokenService.GenerateJwtToken(user);
 
             var result = new
             {

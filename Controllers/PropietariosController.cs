@@ -51,8 +51,11 @@ public class PropietariosController : ControllerBase
     }
 
     [HttpPut("{id}")]
-    public async Task<IActionResult> UpdatePropietario(int id, [FromBody] Propietario propietario)
+    public async Task<IActionResult> UpdatePropietario([FromBody] Propietario propietario)
+
     {
+        int id = Convert.ToInt32( User.FindFirst("Id_propietario")?.Value);
+
         var existingPropietario = await _repository.GetPropietarioByIdAsync(id);
         if (existingPropietario == null)
         {
