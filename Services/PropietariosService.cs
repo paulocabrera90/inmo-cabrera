@@ -1,16 +1,21 @@
 using Inmueble_cabrera.Data;
 using Inmueble_cabrera.Models;
 using Inmueble_cabrera.Utils;
+using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.EntityFrameworkCore;
+using Mysqlx;
+using Org.BouncyCastle.Asn1.Cmp;
 
 namespace Inmueble_cabrera.Services;
 public class PropietariosService : IPropietariosRepository
 {
     private readonly DataContext _context;
+    private readonly IEmailSender _emailSender;
 
-    public PropietariosService(DataContext context)
+    public PropietariosService(DataContext context, IEmailSender emailSender)
     {
         _context = context;
+        _emailSender = emailSender;
     }
 
     public async Task<IEnumerable<Propietario>> GetAllPropietariosAsync()
@@ -86,4 +91,58 @@ public class PropietariosService : IPropietariosRepository
         return existingPropietario;
     }
 
+    public async Task<bool> ResetPassword(string email)
+    {
+        var propietario = await _context.Propietarios.FirstOrDefaultAsync(p => p.Email == email);
+        if (propietario == null)
+        {
+            return false;
+        }
+
+        var resetToken = Commons.GenerateVerificationNumber();
+        propietario.Reset_Token = resetToken;
+        propietario.Reset_Token_Expires = DateTime.UtcNow.AddHours(1);
+
+        _context.Update(propietario);
+        await _context.SaveChangesAsync();
+
+        var mailOptions = new EmailOptions
+        {
+            From = "no-reply@yourdomain.com",
+            To = email,
+            Subject = "Recuperación de Contraseña",
+            Body = Commons.HtmlBodyEmailRecoveryPassword(resetToken)
+        };
+
+        await _emailSender.SendEmailAsync(mailOptions);
+
+        return true;
+    }
+
+    public async Task<bool> VerifyNumberStatusAsync(string email, string verificationNumber)
+    {
+        if (string.IsNullOrWhiteSpace(verificationNumber) || string.IsNullOrWhiteSpace(email))
+        {
+             return (false);
+        }
+
+        var propietario = await _context.Propietarios
+                                   .FirstOrDefaultAsync(u => u.Reset_Token == verificationNumber && u.Email == email);
+
+        if (propietario == null)
+        {
+             return (false);
+        }
+
+        var status = true;
+        var now = DateTime.UtcNow; // Ensure you're using UTC if your server is globally oriented
+        if (propietario.Reset_Token_Expires.HasValue && propietario.Reset_Token_Expires.Value < now)
+        {
+            status = false;
+        }
+
+        return (status);
+    }
 }
+
+

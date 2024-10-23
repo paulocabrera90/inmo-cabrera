@@ -4,7 +4,7 @@ namespace Inmueble_cabrera.Models.Mappers;
 
 public class PropietarioMapper
 {
-    public static PropietarioResponse ToMapper(Propietario propietario)
+    public static PropietarioResponse? ToMapper(Propietario propietario)
     {
         if (propietario == null) return null;
 

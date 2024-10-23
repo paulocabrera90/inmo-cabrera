@@ -25,7 +25,7 @@ public class AuthenticationController : ControllerBase
 
     [HttpPost("login")]
     [AllowAnonymous]
-    public async Task<IActionResult> Login([FromBody] LoginView loginView)
+    public async Task<IActionResult> Login([FromBody] LoginRequest loginView)
     {
         try
         {
@@ -84,6 +84,5 @@ public class AuthenticationController : ControllerBase
             return BadRequest(ex.Message);
         }
     }
-
 
 }

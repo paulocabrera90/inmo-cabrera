@@ -11,4 +11,6 @@ public interface IPropietariosRepository
     Task DeletePropietarioAsync(int id);
     bool PropietarioExists(int id);
     Task<Propietario> ApplyChanges(Propietario existingPropietario, Propietario propietario);
+    Task<bool> ResetPassword(string email);
+    Task<bool> VerifyNumberStatusAsync(string email, string verificationNumber);
 }
