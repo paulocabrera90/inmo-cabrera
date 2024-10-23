@@ -25,7 +25,7 @@ public class AuthenticationController : ControllerBase
 
     [HttpPost("login")]
     [AllowAnonymous]
-    public async Task<IActionResult> Login([FromBody] LoginView loginView)
+    public async Task<IActionResult> Login([FromBody] LoginRequest loginView)
     {
         try
         {
@@ -78,6 +78,33 @@ public class AuthenticationController : ControllerBase
             await context.SaveChangesAsync();
 
             return Ok("Password updated successfully.");
+        }
+        catch (Exception ex)
+        {
+            return BadRequest(ex.Message);
+        }
+    }
+
+    [HttpPost("renove-password")]
+    [AllowAnonymous]
+    public async Task<IActionResult> ResetPassword([FromBody] ResetChangePasswordRequest resetChangePasswordRequest)
+    {
+        try
+        {
+            var user = await context.Propietarios.FirstOrDefaultAsync(u => u.Email == resetChangePasswordRequest.Email && u.Reset_Token == resetChangePasswordRequest.VerificationNumber);
+
+            if (user == null)
+            {
+                 return Conflict("There is a conflict with the provided data.");
+            }           
+
+            user.Password = Commons.CreatePasswordHash(resetChangePasswordRequest.NewPassword);
+
+            // Guardar los cambios en la base de datos
+            context.Propietarios.Update(user);
+            await context.SaveChangesAsync();
+
+            return Ok("Password reset successfully.");
         }
         catch (Exception ex)
         {

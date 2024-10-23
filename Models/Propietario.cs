@@ -21,6 +21,9 @@ public class Propietario
     [RegularExpression(@"^\d+$", ErrorMessage = "El numero solo debe tener dígitos.")]	
     public string? Telefono_Numero { get; set; }
     public int Estado { get; set; } = 1;
+
+    public string? Reset_Token { get; set;}
+    public DateTime? Reset_Token_Expires { get; set;}
     public List<Inmueble> Inmuebles = new List<Inmueble>();
 
     public string NombreCompleto () => $"{Apellido} {Nombre}";

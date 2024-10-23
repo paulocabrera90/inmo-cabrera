@@ -5,6 +5,8 @@ using Inmueble_cabrera.Models.Mappers;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.JsonPatch;
+using Microsoft.AspNetCore.Identity.Data;
+using Inmueble_cabrera.Models.Authentication;
 
 namespace Inmueble_cabrera.Controllers;
 
@@ -54,7 +56,7 @@ public class PropietariosController : ControllerBase
     public async Task<IActionResult> UpdatePropietario([FromBody] Propietario propietario)
 
     {
-        int id = Convert.ToInt32( User.FindFirst("Id_propietario")?.Value);
+        int id = Convert.ToInt32(User.FindFirst("Id_propietario")?.Value);
 
         var existingPropietario = await _repository.GetPropietarioByIdAsync(id);
         if (existingPropietario == null)
@@ -104,4 +106,44 @@ public class PropietariosController : ControllerBase
         await _repository.DeletePropietarioAsync(id);
         return NoContent();
     }
+
+    [HttpPost("reset-password")]
+    [AllowAnonymous]
+    public async Task<IActionResult> ResetPassword([FromBody] ResetPasswordRequest request)
+    {
+        var success = await _repository.ResetPassword(request.Email);
+        if (!success)
+        {
+            return NotFound(new { message = "Password reset error. No user found with that email or not a user role." });
+        }
+
+        return Ok(new { message = "Password reset successful. Please check your email for the new password." });
+    }
+
+    [HttpPost("validate-code")]
+    [AllowAnonymous]
+    public async Task<IActionResult> ValidateVerificationNumber([FromBody] VerificationRequest request)
+    {
+        if (!ModelState.IsValid)
+        {
+            return BadRequest(ModelState);
+        }
+
+        try
+        {
+            var statusVerification = await _repository.VerifyNumberStatusAsync( request.Email, request.VerificationNumber);
+            if (statusVerification == null)
+            {
+                return NotFound(new { message = "Verification failed. Details not found." });
+            }
+
+            return Ok(statusVerification);
+        }
+        catch (Exception ex)
+        {
+            // Logging the exception might be useful
+            return StatusCode(500, new { message = "Internal server error", detail = ex.Message });
+        }
+    }
+
 }

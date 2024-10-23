@@ -1,7 +1,7 @@
 using System.ComponentModel.DataAnnotations;
 
 namespace Inmueble_cabrera.Models.Authentication;
-public class LoginView
+public class LoginRequest
 	{
 		[DataType(DataType.EmailAddress)]
 		public required string Email { get; set; }

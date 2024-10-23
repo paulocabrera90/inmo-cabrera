@@ -42,6 +42,9 @@ builder.Services.AddDbContext<Inmueble_cabrera.Data.DataContext>(options =>
 
  // Asegúrate de registrar tu servicio aquí
 builder.Services.AddScoped<IPropietariosRepository, PropietariosService>();
+builder.Services.AddScoped<IInmueblesRepository, InmueblesService>();
+builder.Services.AddScoped<IEmailSender, EmailSenderService>();
+
 
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
     .AddJwtBearer(options =>

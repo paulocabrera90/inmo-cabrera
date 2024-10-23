@@ -4,6 +4,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 public class Inmueble
 {
+    
     [Required(ErrorMessage = "El id es obligatorio.")]
     public int Id { get; set; }
     [Required(ErrorMessage = "La direccion es obligatoria.")]
@@ -11,11 +12,15 @@ public class Inmueble
     
     [Required(ErrorMessage = "El tipo de uso es obligatorio.")]
     public int Id_Tipo_Inmueble_Uso { get; set; }
-    public TipoInmuebleUso? Tipo_Uso { get; set; }
+    
+    [ForeignKey("Id_Tipo_Inmueble_Uso")]
+    public Tipo_Inmueble_Uso? Tipo_Uso { get; set; }
     
     [Required(ErrorMessage = "El tipo es obligatorio.")] 
     public int Id_Tipo_Inmueble { get; set; }
-    public TipoInmueble? Tipo { get; set; }
+
+    [ForeignKey("Id_Tipo_Inmueble")]
+    public Tipo_Inmueble? Tipo { get; set; }
     [Required(ErrorMessage = "Los ambientes son obligatorios.")]
     public int Ambientes { get; set; }
     [Required(ErrorMessage = "La latitud es obligatoria.")]
@@ -28,10 +33,12 @@ public class Inmueble
     public int Id_Propietario { get; set; }
 
     public bool Activo { get; set; }
+    
+    [NotMapped]
     public Propietario? Propietario { get; set; }
     public DateTime Fecha_Creacion { get; set; }
     public DateTime Fecha_Actualizacion { get; set; }
     
-    [NotMapped]
-    public string NombreInmueble => $"{Direccion} - {Tipo?.Descripcion}";
+    // [NotMapped]
+    // public string NombreInmueble => $"{Direccion} - {Tipo?.Descripcion}";
 }
