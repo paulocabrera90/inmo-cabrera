@@ -85,4 +85,32 @@ public class AuthenticationController : ControllerBase
         }
     }
 
+    [HttpPost("renove-password")]
+    [AllowAnonymous]
+    public async Task<IActionResult> ResetPassword([FromBody] ResetChangePasswordRequest resetChangePasswordRequest)
+    {
+        try
+        {
+            var user = await context.Propietarios.FirstOrDefaultAsync(u => u.Email == resetChangePasswordRequest.Email && u.Reset_Token == resetChangePasswordRequest.VerificationNumber);
+
+            if (user == null)
+            {
+                 return Conflict("There is a conflict with the provided data.");
+            }           
+
+            user.Password = Commons.CreatePasswordHash(resetChangePasswordRequest.NewPassword);
+
+            // Guardar los cambios en la base de datos
+            context.Propietarios.Update(user);
+            await context.SaveChangesAsync();
+
+            return Ok("Password reset successfully.");
+        }
+        catch (Exception ex)
+        {
+            return BadRequest(ex.Message);
+        }
+    }
+
+
 }

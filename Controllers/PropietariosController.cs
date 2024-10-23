@@ -131,7 +131,7 @@ public class PropietariosController : ControllerBase
 
         try
         {
-            var statusVerification = await _repository.VerifyNumberStatusAsync(request.VerificationNumber, request.Email);
+            var statusVerification = await _repository.VerifyNumberStatusAsync( request.Email, request.VerificationNumber);
             if (statusVerification == null)
             {
                 return NotFound(new { message = "Verification failed. Details not found." });
