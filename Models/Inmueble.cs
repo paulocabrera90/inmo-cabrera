@@ -39,6 +39,6 @@ public class Inmueble
     public DateTime Fecha_Creacion { get; set; }
     public DateTime Fecha_Actualizacion { get; set; }
     
-    // [NotMapped]
-    // public string NombreInmueble => $"{Direccion} - {Tipo?.Descripcion}";
+    [NotMapped]
+    public string NombreInmueble => $"{Direccion} - {Tipo?.Descripcion}";
 }

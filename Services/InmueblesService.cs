@@ -20,6 +20,7 @@ public class InmueblesService : IInmueblesRepository
         .ToListAsync();
     }
 
+
     public async Task<Inmueble> GetInmuebleByIdAsync(int id)
     {
         return await _context.Inmuebles
@@ -68,5 +69,14 @@ public class InmueblesService : IInmueblesRepository
         // Asegúrate de incluir lógica para actualizar relaciones como Tipo y Tipo_Uso si es necesario
 
         return existingInmueble;
+    }
+
+    public async Task<IEnumerable<Inmueble>>  GetAllInmueblesByPropietarioIdAsync(int id)
+    {
+         return await _context.Inmuebles
+        .Include(i => i.Tipo)
+        .Include(i => i.Tipo_Uso)
+        .Where(i => i.Id_Propietario == id) // Filter by Id_Propietario
+        .ToListAsync();
     }
 }
