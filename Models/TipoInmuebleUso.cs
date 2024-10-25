@@ -1,5 +1,6 @@
 namespace Inmueble_cabrera.Models;
-public class Tipo_Inmueble
+
+public class TipoInmuebleUso
 {
     public int Id { get; set; }
     public string Descripcion { get; set; } = "";

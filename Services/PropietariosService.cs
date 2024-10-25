@@ -79,14 +79,14 @@ public class PropietariosService : IPropietariosRepository
         if (!string.IsNullOrEmpty(propietarioDto.Direccion))
             existingPropietario.Direccion = propietarioDto.Direccion;
 
-        if (!string.IsNullOrEmpty(propietarioDto.Telefono_Area))
-            existingPropietario.Telefono_Area = propietarioDto.Telefono_Area;
+        if (!string.IsNullOrEmpty(propietarioDto.TelefonoArea))
+            existingPropietario.TelefonoArea = propietarioDto.TelefonoArea;
 
-        if (!string.IsNullOrEmpty(propietarioDto.Telefono_Numero))
-            existingPropietario.Telefono_Numero = propietarioDto.Telefono_Numero;
+        if (!string.IsNullOrEmpty(propietarioDto.TelefonoNumero))
+            existingPropietario.TelefonoNumero = propietarioDto.TelefonoNumero;
 
         // Actualizar la fecha de modificación
-        existingPropietario.Fecha_Actualizacion = DateTime.Now;
+        existingPropietario.FechaActualizacion = DateTime.Now;
 
         return existingPropietario;
     }
@@ -100,8 +100,8 @@ public class PropietariosService : IPropietariosRepository
         }
 
         var resetToken = Commons.GenerateVerificationNumber();
-        propietario.Reset_Token = resetToken;
-        propietario.Reset_Token_Expires = DateTime.UtcNow.AddHours(1);
+        propietario.ResetToken = resetToken;
+        propietario.ResetTokenExpires = DateTime.UtcNow.AddHours(1);
 
         _context.Update(propietario);
         await _context.SaveChangesAsync();
@@ -127,7 +127,7 @@ public class PropietariosService : IPropietariosRepository
         }
 
         var propietario = await _context.Propietarios
-                                   .FirstOrDefaultAsync(u => u.Reset_Token == verificationNumber && u.Email == email);
+                                   .FirstOrDefaultAsync(u => u.ResetToken == verificationNumber && u.Email == email);
 
         if (propietario == null)
         {
@@ -136,7 +136,7 @@ public class PropietariosService : IPropietariosRepository
 
         var status = true;
         var now = DateTime.UtcNow; // Ensure you're using UTC if your server is globally oriented
-        if (propietario.Reset_Token_Expires.HasValue && propietario.Reset_Token_Expires.Value < now)
+        if (propietario.ResetTokenExpires.HasValue && propietario.ResetTokenExpires.Value < now)
         {
             status = false;
         }

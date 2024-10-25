@@ -16,7 +16,7 @@ public class InmueblesService : IInmueblesRepository
     {
         return await _context.Inmuebles
         .Include(i => i.Tipo)
-        .Include(i => i.Tipo_Uso)
+        .Include(i => i.TipoUso)
         .ToListAsync();
     }
 
@@ -25,7 +25,7 @@ public class InmueblesService : IInmueblesRepository
     {
         return await _context.Inmuebles
             .Include(i => i.Tipo)
-            .Include(i => i.Tipo_Uso)
+            .Include(i => i.TipoUso)
             .FirstOrDefaultAsync(i => i.Id == id);
     }
 
@@ -61,10 +61,10 @@ public class InmueblesService : IInmueblesRepository
     {
         // Implementar lógica para aplicar cambios específicos del DTO al inmueble existente, similar a Propietarios
         existingInmueble.Direccion = inmuebleDto.Direccion ?? existingInmueble.Direccion;
-        existingInmueble.Coordenada_Lat = inmuebleDto.Coordenada_Lat ?? existingInmueble.Coordenada_Lat;
-        existingInmueble.Coordenada_Lon = inmuebleDto.Coordenada_Lon ?? existingInmueble.Coordenada_Lon;
+        existingInmueble.CoordenadaLat = inmuebleDto.CoordenadaLat ?? existingInmueble.CoordenadaLat;
+        existingInmueble.CoordenadaLon = inmuebleDto.CoordenadaLon ?? existingInmueble.CoordenadaLon;
         existingInmueble.Precio = inmuebleDto.Precio != default ? inmuebleDto.Precio : existingInmueble.Precio;
-        existingInmueble.Fecha_Actualizacion = DateTime.Now;
+        existingInmueble.FechaActualizacion = DateTime.Now;
 
         // Asegúrate de incluir lógica para actualizar relaciones como Tipo y Tipo_Uso si es necesario
 
@@ -75,8 +75,8 @@ public class InmueblesService : IInmueblesRepository
     {
          return await _context.Inmuebles
         .Include(i => i.Tipo)
-        .Include(i => i.Tipo_Uso)
-        .Where(i => i.Id_Propietario == id) // Filter by Id_Propietario
+        .Include(i => i.TipoUso)
+        .Where(i => i.IdPropietario == id) // Filter by Id_Propietario
         .ToListAsync();
     }
 }
