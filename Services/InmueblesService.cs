@@ -79,4 +79,5 @@ public class InmueblesService : IInmueblesRepository
         .Where(i => i.IdPropietario == id) // Filter by Id_Propietario
         .ToListAsync();
     }
+
 }
