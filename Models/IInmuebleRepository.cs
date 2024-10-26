@@ -10,4 +10,5 @@ public interface IInmueblesRepository
     Task UpdateInmuebleAsync(Inmueble inmueble);
     Task DeleteInmuebleAsync(int id);
     bool InmuebleExists(int id);
+    Task<Inmueble> ApplyChanges(Inmueble existingInmueble, Inmueble inmueble);
 }

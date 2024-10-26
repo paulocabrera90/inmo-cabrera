@@ -30,7 +30,10 @@ public class InmueblesService : IInmueblesRepository
     }
 
     public async Task<Inmueble> CreateInmuebleAsync(Inmueble inmueble)
-    {
+    {   
+        inmueble.FechaActualizacion = DateTime.Today;
+        inmueble.FechaCreacion = DateTime.Today;
+
         _context.Inmuebles.Add(inmueble);
         await _context.SaveChangesAsync();
         return inmueble;
@@ -57,17 +60,46 @@ public class InmueblesService : IInmueblesRepository
         return _context.Inmuebles.Any(i => i.Id == id);
     }
 
-    public async Task<Inmueble> ApplyChanges(Inmueble existingInmueble, Inmueble inmuebleDto)
+    
+    public async Task<Inmueble> ApplyChanges(Inmueble existingInmueble, Inmueble inmueble)
     {
-        // Implementar lógica para aplicar cambios específicos del DTO al inmueble existente, similar a Propietarios
-        existingInmueble.Direccion = inmuebleDto.Direccion ?? existingInmueble.Direccion;
-        existingInmueble.CoordenadaLat = inmuebleDto.CoordenadaLat ?? existingInmueble.CoordenadaLat;
-        existingInmueble.CoordenadaLon = inmuebleDto.CoordenadaLon ?? existingInmueble.CoordenadaLon;
-        existingInmueble.Precio = inmuebleDto.Precio != default ? inmuebleDto.Precio : existingInmueble.Precio;
+        // Aplicar solo los campos modificados (si no son null o valores vacíos)
+        if (!string.IsNullOrEmpty(inmueble.Direccion))
+            existingInmueble.Direccion = inmueble.Direccion;
+
+        if (!string.IsNullOrEmpty(inmueble.IdPropietario.ToString()))
+            existingInmueble.IdPropietario = inmueble.IdPropietario;
+
+        if (!string.IsNullOrEmpty(inmueble.IdTipoInmueble.ToString()))
+            existingInmueble.IdTipoInmueble = inmueble.IdTipoInmueble;
+
+        if (!string.IsNullOrEmpty(inmueble.IdTipoInmuebleUso.ToString()))
+            existingInmueble.IdTipoInmuebleUso = inmueble.IdTipoInmuebleUso;
+
+        if (!string.IsNullOrEmpty(inmueble.Direccion))
+            existingInmueble.Direccion = inmueble.Direccion;
+
+        if (!string.IsNullOrEmpty(inmueble.Ambientes.ToString()))
+            existingInmueble.Ambientes = inmueble.Ambientes;
+
+        if (!string.IsNullOrEmpty(inmueble.Precio.ToString()))
+                    existingInmueble.Precio = inmueble.Precio;
+
+        if (!string.IsNullOrEmpty(inmueble.CoordenadaLat))
+            existingInmueble.CoordenadaLat = inmueble.CoordenadaLat;
+             
+        if (!string.IsNullOrEmpty(inmueble.CoordenadaLon))
+            existingInmueble.CoordenadaLon = inmueble.CoordenadaLon;
+
+        if (!string.IsNullOrEmpty(inmueble.Activo.ToString()))
+            existingInmueble.Activo = inmueble.Activo;
+
+        //IMAGEN   
+
+        // Actualizar la fecha de modificación
         existingInmueble.FechaActualizacion = DateTime.Now;
 
-        // Asegúrate de incluir lógica para actualizar relaciones como Tipo y Tipo_Uso si es necesario
-
+    
         return existingInmueble;
     }
 

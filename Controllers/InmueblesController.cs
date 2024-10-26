@@ -8,7 +8,7 @@ namespace Inmueble_cabrera.Controllers;
 
 [Route("api/[controller]")]
 [ApiController]
-[Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
+//[Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
 public class InmueblesController : ControllerBase
 {
     private readonly IInmueblesRepository _repository;
@@ -97,5 +97,49 @@ public class InmueblesController : ControllerBase
 
         await _repository.DeleteInmuebleAsync(id);
         return NoContent();
+    }
+
+     [HttpPut]
+    public async Task<IActionResult> UpdateInmueble([FromBody] Inmueble inmueble)
+
+    {
+        //CONTROLAR EL ID DEL PROPIETARIO
+        int id = Convert.ToInt32(User.FindFirst("Id_propietario")?.Value);
+
+        var existingInmueble = await _repository.GetInmuebleByIdAsync(inmueble.Id);
+        if (existingInmueble == null)
+        {
+            return NotFound();
+        }
+
+        if (!ModelState.IsValid)
+        {
+            return BadRequest(ModelState);
+        }
+
+        if (!TryValidateModel(existingInmueble))
+        {
+            return BadRequest(ModelState);
+        }
+
+        try
+        {
+            existingInmueble = await _repository.ApplyChanges(existingInmueble, inmueble);
+            await _repository.UpdateInmuebleAsync(existingInmueble);
+        }
+        catch (DbUpdateConcurrencyException)
+        {
+            if (!_repository.InmuebleExists(id))
+            {
+                return NotFound();
+            }
+            else
+            {
+                throw;
+            }
+        }
+
+
+        return Ok(existingInmueble);
     }
 }
