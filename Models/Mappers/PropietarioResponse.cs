@@ -7,8 +7,8 @@ public class PropietarioResponse
     public string Apellido { get; set; }
     public string Email { get; set; }
     public string Direccion { get; set; }
-    public string Fecha_creacion { get; set; }
-    public string Fecha_actualizacion { get; set; }
-    public string Telefono_area { get; set; }
-    public string Telefono_numero { get; set; }
+    public string FechaCreacion { get; set; }
+    public string FechaActualizacion { get; set; }
+    public string TelefonoArea { get; set; }
+    public string TelefonoNumero { get; set; }
 }

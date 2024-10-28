@@ -91,7 +91,7 @@ public class AuthenticationController : ControllerBase
     {
         try
         {
-            var user = await context.Propietarios.FirstOrDefaultAsync(u => u.Email == resetChangePasswordRequest.Email && u.Reset_Token == resetChangePasswordRequest.VerificationNumber);
+            var user = await context.Propietarios.FirstOrDefaultAsync(u => u.Email == resetChangePasswordRequest.Email && u.ResetToken == resetChangePasswordRequest.VerificationNumber);
 
             if (user == null)
             {

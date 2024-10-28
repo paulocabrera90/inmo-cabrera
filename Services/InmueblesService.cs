@@ -16,27 +16,50 @@ public class InmueblesService : IInmueblesRepository
     {
         return await _context.Inmuebles
         .Include(i => i.Tipo)
-        .Include(i => i.Tipo_Uso)
+        .Include(i => i.TipoUso)
         .ToListAsync();
     }
+
 
     public async Task<Inmueble> GetInmuebleByIdAsync(int id)
     {
         return await _context.Inmuebles
             .Include(i => i.Tipo)
-            .Include(i => i.Tipo_Uso)
+            .Include(i => i.TipoUso)
             .FirstOrDefaultAsync(i => i.Id == id);
     }
 
-    public async Task<Inmueble> CreateInmuebleAsync(Inmueble inmueble)
+    public async Task<Inmueble> CreateInmuebleAsync(Inmueble inmueble, IFormFile? image)
     {
+        inmueble.FechaActualizacion = DateTime.Today;
+        inmueble.FechaCreacion = DateTime.Today;
+
+        if (image != null && image.Length > 0)
+        {
+            using (var stream = new MemoryStream())
+            {
+                await image.CopyToAsync(stream);
+                inmueble.ImageBlob = stream.ToArray();
+            }
+        }
+
         _context.Inmuebles.Add(inmueble);
         await _context.SaveChangesAsync();
         return inmueble;
     }
 
-    public async Task UpdateInmuebleAsync(Inmueble inmueble)
+    public async Task UpdateInmuebleAsync(Inmueble inmueble, IFormFile? image)
     {
+        inmueble.FechaActualizacion = DateTime.Today;
+
+        if (image != null && image.Length > 0)
+        {
+            using (var stream = new MemoryStream())
+            {
+                await image.CopyToAsync(stream);
+                inmueble.ImageBlob = stream.ToArray();
+            }
+        }
         _context.Attach(inmueble).State = EntityState.Modified;
         await _context.SaveChangesAsync();
     }
@@ -56,17 +79,66 @@ public class InmueblesService : IInmueblesRepository
         return _context.Inmuebles.Any(i => i.Id == id);
     }
 
-    public async Task<Inmueble> ApplyChanges(Inmueble existingInmueble, Inmueble inmuebleDto)
+    public async Task<Inmueble> ApplyChanges(Inmueble existingInmueble, Inmueble inmueble)
     {
-        // Implementar lógica para aplicar cambios específicos del DTO al inmueble existente, similar a Propietarios
-        existingInmueble.Direccion = inmuebleDto.Direccion ?? existingInmueble.Direccion;
-        existingInmueble.Coordenada_Lat = inmuebleDto.Coordenada_Lat ?? existingInmueble.Coordenada_Lat;
-        existingInmueble.Coordenada_Lon = inmuebleDto.Coordenada_Lon ?? existingInmueble.Coordenada_Lon;
-        existingInmueble.Precio = inmuebleDto.Precio != default ? inmuebleDto.Precio : existingInmueble.Precio;
-        existingInmueble.Fecha_Actualizacion = DateTime.Now;
+        // Aplicar solo los campos modificados (si no son null o valores vacíos)
+        if (!string.IsNullOrEmpty(inmueble.Direccion))
+            existingInmueble.Direccion = inmueble.Direccion;
 
-        // Asegúrate de incluir lógica para actualizar relaciones como Tipo y Tipo_Uso si es necesario
+        if (!string.IsNullOrEmpty(inmueble.IdPropietario.ToString()))
+            existingInmueble.IdPropietario = inmueble.IdPropietario;
+
+        if (!string.IsNullOrEmpty(inmueble.IdTipoInmueble.ToString()))
+            existingInmueble.IdTipoInmueble = inmueble.IdTipoInmueble;
+
+        if (!string.IsNullOrEmpty(inmueble.IdTipoInmuebleUso.ToString()))
+            existingInmueble.IdTipoInmuebleUso = inmueble.IdTipoInmuebleUso;
+
+        if (!string.IsNullOrEmpty(inmueble.Direccion))
+            existingInmueble.Direccion = inmueble.Direccion;
+
+        if (!string.IsNullOrEmpty(inmueble.Ambientes.ToString()))
+            existingInmueble.Ambientes = inmueble.Ambientes;
+
+        if (!string.IsNullOrEmpty(inmueble.Precio.ToString()))
+            existingInmueble.Precio = inmueble.Precio;
+
+        if (!string.IsNullOrEmpty(inmueble.CoordenadaLat))
+            existingInmueble.CoordenadaLat = inmueble.CoordenadaLat;
+
+        if (!string.IsNullOrEmpty(inmueble.CoordenadaLon))
+            existingInmueble.CoordenadaLon = inmueble.CoordenadaLon;
+
+        if (!string.IsNullOrEmpty(inmueble.Activo.ToString()))
+            existingInmueble.Activo = inmueble.Activo;
+
+        //IMAGEN   
+
+        // Actualizar la fecha de modificación
+        existingInmueble.FechaActualizacion = DateTime.Now;
+
 
         return existingInmueble;
     }
+
+    public async Task<IEnumerable<Inmueble>> GetAllInmueblesByPropietarioIdAsync(int id)
+    {
+        return await _context.Inmuebles
+       .Include(i => i.Tipo)
+       .Include(i => i.TipoUso)
+       .Where(i => i.IdPropietario == id)
+       .ToListAsync();
+    }
+
+    public async Task<byte[]?> GetArchivoByInmuebleIdAsync(int id)
+    {
+        var inmueble = await _context.Inmuebles
+            .Where(i => i.Id == id)
+            .Select(i => i.ImageBlob)
+            .FirstOrDefaultAsync();
+
+        return inmueble;
+    }
+
+
 }

@@ -1,5 +1,6 @@
 namespace Inmueble_cabrera.Models;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 public class Propietario
 {
@@ -14,16 +15,27 @@ public class Propietario
     public string? Direccion { get; set; }
     public string Usuario { get; set; } = "";
     public string Password { get; set; } = "";
-    public DateTime Fecha_Creacion { get; set; }
-    public DateTime Fecha_Actualizacion { get; set; }
-    [RegularExpression(@"^\d+$", ErrorMessage = "El area solo debe tener dígitos.")]	
-    public string? Telefono_Area { get; set; }
-    [RegularExpression(@"^\d+$", ErrorMessage = "El numero solo debe tener dígitos.")]	
-    public string? Telefono_Numero { get; set; }
-    public int Estado { get; set; } = 1;
 
-    public string? Reset_Token { get; set;}
-    public DateTime? Reset_Token_Expires { get; set;}
+    [Column("Fecha_Creacion")]
+    public DateTime FechaCreacion { get; set; }
+
+    [Column("Fecha_Actualizacion")]
+    public DateTime FechaActualizacion { get; set; }
+
+    [RegularExpression(@"^\d+$", ErrorMessage = "El area solo debe tener dígitos.")]
+    [Column("Telefono_Area")]
+    public string? TelefonoArea { get; set; }
+
+    [RegularExpression(@"^\d+$", ErrorMessage = "El numero solo debe tener dígitos.")]
+    [Column("Telefono_Numero")]
+    public string? TelefonoNumero { get; set; }
+    public int Estado { get; set; } = 1;
+    
+    [Column("Reset_Token")]
+    public string? ResetToken { get; set;}
+
+    [Column("Reset_Token_Expires")]
+    public DateTime? ResetTokenExpires { get; set;}
     public List<Inmueble> Inmuebles = new List<Inmueble>();
 
     public string NombreCompleto () => $"{Apellido} {Nombre}";

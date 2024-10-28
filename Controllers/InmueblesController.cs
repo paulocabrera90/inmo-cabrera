@@ -8,7 +8,7 @@ namespace Inmueble_cabrera.Controllers;
 
 [Route("api/[controller]")]
 [ApiController]
-//[Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
+[Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
 public class InmueblesController : ControllerBase
 {
     private readonly IInmueblesRepository _repository;
@@ -25,6 +25,13 @@ public class InmueblesController : ControllerBase
         return Ok(inmuebles);
     }
 
+    [HttpGet("by-propietario/{id}")]
+    public async Task<IActionResult> GetInmueblesByPropietarioId(int id)
+    {
+        var inmuebles = await _repository.GetAllInmueblesByPropietarioIdAsync(id);
+        return Ok(inmuebles);
+    }
+
     [HttpGet("{id}")]
     public async Task<IActionResult> GetInmueble(int id)
     {
@@ -37,33 +44,61 @@ public class InmueblesController : ControllerBase
     }
 
     [HttpPost]
-    public async Task<IActionResult> CreateInmueble([FromBody] Inmueble inmueble)
+    public async Task<IActionResult> CreateInmueble([FromForm] Inmueble inmueble, [FromForm] IFormFile? image)
     {
         if (!ModelState.IsValid)
         {
             return BadRequest(ModelState);
         }
-
-        var createdInmueble = await _repository.CreateInmuebleAsync(inmueble);
+        Console.WriteLine("IMAGE", image);
+        var createdInmueble = await _repository.CreateInmuebleAsync(inmueble, image);
         return CreatedAtAction(nameof(GetInmueble), new { id = createdInmueble.Id }, createdInmueble);
     }
 
-    [HttpPut("{id}")]
-    public async Task<IActionResult> UpdateInmueble(int id, [FromBody] Inmueble inmueble)
-    {
-        if (id != inmueble.Id)
-        {
-            return BadRequest("ID mismatch");
-        }
 
+    [HttpDelete("{id}")]
+    public async Task<IActionResult> DeleteInmueble(int id)
+    {
         if (!_repository.InmuebleExists(id))
         {
             return NotFound();
         }
 
+        await _repository.DeleteInmuebleAsync(id);
+        return NoContent();
+    }
+
+    [HttpPut]
+    public async Task<IActionResult> UpdateInmueble([FromForm] Inmueble inmueble, [FromForm] IFormFile? image)
+    {
+        //CONTROLAR EL ID DEL PROPIETARIO
+        int id = Convert.ToInt32(User.FindFirst("Id_propietario")?.Value);
+
+        if (id != inmueble.IdPropietario)
+        {
+            return BadRequest("No puede editar el inmueble, ya que no es propietario");
+        }
+
+        var existingInmueble = await _repository.GetInmuebleByIdAsync(inmueble.Id);
+        if (existingInmueble == null)
+        {
+            return NotFound();
+        }
+
+        if (!ModelState.IsValid)
+        {
+            return BadRequest(ModelState);
+        }
+
+        if (!TryValidateModel(existingInmueble))
+        {
+            return BadRequest(ModelState);
+        }
+
         try
         {
-            await _repository.UpdateInmuebleAsync(inmueble);
+            existingInmueble = await _repository.ApplyChanges(existingInmueble, inmueble);
+            await _repository.UpdateInmuebleAsync(existingInmueble, image);;
         }
         catch (DbUpdateConcurrencyException)
         {
@@ -77,18 +112,20 @@ public class InmueblesController : ControllerBase
             }
         }
 
-        return NoContent();
+
+        return Ok(existingInmueble);
     }
 
-    [HttpDelete("{id}")]
-    public async Task<IActionResult> DeleteInmueble(int id)
+    [HttpGet("{id}/image")]
+    public async Task<IActionResult> GetArchivo(int id)
     {
-        if (!_repository.InmuebleExists(id))
+        var archivoBase64 = await _repository.GetArchivoByInmuebleIdAsync(id);
+        if (archivoBase64 == null)
         {
-            return NotFound();
+            return NotFound(new { mensaje = "No se encuentra archivo o imagen para el inmueble especificado." });
         }
 
-        await _repository.DeleteInmuebleAsync(id);
-        return NoContent();
+       // return Ok(new { archivoBase64 });
+       return  Ok(File(archivoBase64, "image/jpeg"));
     }
 }
