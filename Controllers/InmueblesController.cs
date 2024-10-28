@@ -44,48 +44,17 @@ public class InmueblesController : ControllerBase
     }
 
     [HttpPost]
-    public async Task<IActionResult> CreateInmueble([FromForm] Inmueble inmueble, [FromForm] IFormFile image)
+    public async Task<IActionResult> CreateInmueble([FromForm] Inmueble inmueble, [FromForm] IFormFile? image)
     {
         if (!ModelState.IsValid)
         {
             return BadRequest(ModelState);
         }
-
+        Console.WriteLine("IMAGE", image);
         var createdInmueble = await _repository.CreateInmuebleAsync(inmueble, image);
         return CreatedAtAction(nameof(GetInmueble), new { id = createdInmueble.Id }, createdInmueble);
     }
 
-    [HttpPut("{id}")]
-    public async Task<IActionResult> UpdateInmueble(int id, [FromBody] Inmueble inmueble)
-    {
-        if (id != inmueble.Id)
-        {
-            return BadRequest("ID mismatch");
-        }
-
-        if (!_repository.InmuebleExists(id))
-        {
-            return NotFound();
-        }
-
-        try
-        {
-            await _repository.UpdateInmuebleAsync(inmueble);
-        }
-        catch (DbUpdateConcurrencyException)
-        {
-            if (!_repository.InmuebleExists(id))
-            {
-                return NotFound();
-            }
-            else
-            {
-                throw;
-            }
-        }
-
-        return NoContent();
-    }
 
     [HttpDelete("{id}")]
     public async Task<IActionResult> DeleteInmueble(int id)
@@ -100,8 +69,7 @@ public class InmueblesController : ControllerBase
     }
 
     [HttpPut]
-    public async Task<IActionResult> UpdateInmueble([FromBody] Inmueble inmueble)
-
+    public async Task<IActionResult> UpdateInmueble([FromForm] Inmueble inmueble, [FromForm] IFormFile? image)
     {
         //CONTROLAR EL ID DEL PROPIETARIO
         int id = Convert.ToInt32(User.FindFirst("Id_propietario")?.Value);
@@ -130,7 +98,7 @@ public class InmueblesController : ControllerBase
         try
         {
             existingInmueble = await _repository.ApplyChanges(existingInmueble, inmueble);
-            await _repository.UpdateInmuebleAsync(existingInmueble);
+            await _repository.UpdateInmuebleAsync(existingInmueble, image);;
         }
         catch (DbUpdateConcurrencyException)
         {

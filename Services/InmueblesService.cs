@@ -29,7 +29,7 @@ public class InmueblesService : IInmueblesRepository
             .FirstOrDefaultAsync(i => i.Id == id);
     }
 
-    public async Task<Inmueble> CreateInmuebleAsync(Inmueble inmueble, IFormFile image)
+    public async Task<Inmueble> CreateInmuebleAsync(Inmueble inmueble, IFormFile? image)
     {
         inmueble.FechaActualizacion = DateTime.Today;
         inmueble.FechaCreacion = DateTime.Today;
@@ -48,8 +48,18 @@ public class InmueblesService : IInmueblesRepository
         return inmueble;
     }
 
-    public async Task UpdateInmuebleAsync(Inmueble inmueble)
+    public async Task UpdateInmuebleAsync(Inmueble inmueble, IFormFile? image)
     {
+        inmueble.FechaActualizacion = DateTime.Today;
+
+        if (image != null && image.Length > 0)
+        {
+            using (var stream = new MemoryStream())
+            {
+                await image.CopyToAsync(stream);
+                inmueble.ImageBlob = stream.ToArray();
+            }
+        }
         _context.Attach(inmueble).State = EntityState.Modified;
         await _context.SaveChangesAsync();
     }

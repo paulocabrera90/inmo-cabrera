@@ -9,9 +9,9 @@ public interface IInmueblesRepository
 
     Task<Inmueble> GetInmuebleByIdAsync(int id);
 
-    Task<Inmueble> CreateInmuebleAsync(Inmueble inmueble, IFormFile image);
+    Task<Inmueble> CreateInmuebleAsync(Inmueble inmueble, IFormFile? image);
 
-    Task UpdateInmuebleAsync(Inmueble inmueble);
+    Task UpdateInmuebleAsync(Inmueble inmueble, IFormFile? image);
 
     Task DeleteInmuebleAsync(int id);
 

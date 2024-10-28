@@ -5,8 +5,8 @@ using System.ComponentModel.DataAnnotations.Schema;
 public class Inmueble
 {
     
-    [Required(ErrorMessage = "El id es obligatorio.")]
     public int Id { get; set; }
+
     [Required(ErrorMessage = "La direccion es obligatoria.")]
     public string Direccion { get; set; } = "";
     
@@ -34,6 +34,7 @@ public class Inmueble
     [Column("Coordenada_Lon")]
     [Required(ErrorMessage = "La longitud es obligatoria.")]
     public string CoordenadaLon { get; set; } = "-66.33797013891889";
+    
     [Required(ErrorMessage = "El precio es obligatorio.")]
     public decimal Precio { get; set; }
 
