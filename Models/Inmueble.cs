@@ -41,17 +41,22 @@ public class Inmueble
     [Required(ErrorMessage = "El id del propietario es obligatorio.")]
     public int IdPropietario { get; set; }
 
-    public bool Activo { get; set; }
-    
-    [NotMapped]
-    public Propietario? Propietario { get; set; }
+    public bool Activo { get; set; }    
     
     [Column("Fecha_Creacion")]
     public DateTime FechaCreacion { get; set; }
     
     [Column("Fecha_Actualizacion")]
     public DateTime FechaActualizacion { get; set; }
+
+    public byte[]? ImageBlob { get; set; }
+    
+    [NotMapped]
+    public IFormFile? Archivo { get; set; }
     
     [NotMapped]
     public string NombreInmueble => $"{Direccion} - {Tipo?.Descripcion}";
+
+    [NotMapped]
+    public Propietario? Propietario { get; set; }
 }

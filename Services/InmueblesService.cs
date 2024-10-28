@@ -29,10 +29,19 @@ public class InmueblesService : IInmueblesRepository
             .FirstOrDefaultAsync(i => i.Id == id);
     }
 
-    public async Task<Inmueble> CreateInmuebleAsync(Inmueble inmueble)
-    {   
+    public async Task<Inmueble> CreateInmuebleAsync(Inmueble inmueble, IFormFile image)
+    {
         inmueble.FechaActualizacion = DateTime.Today;
         inmueble.FechaCreacion = DateTime.Today;
+
+        if (image != null && image.Length > 0)
+        {
+            using (var stream = new MemoryStream())
+            {
+                await image.CopyToAsync(stream);
+                inmueble.ImageBlob = stream.ToArray();
+            }
+        }
 
         _context.Inmuebles.Add(inmueble);
         await _context.SaveChangesAsync();
@@ -60,7 +69,6 @@ public class InmueblesService : IInmueblesRepository
         return _context.Inmuebles.Any(i => i.Id == id);
     }
 
-    
     public async Task<Inmueble> ApplyChanges(Inmueble existingInmueble, Inmueble inmueble)
     {
         // Aplicar solo los campos modificados (si no son null o valores vacíos)
@@ -83,11 +91,11 @@ public class InmueblesService : IInmueblesRepository
             existingInmueble.Ambientes = inmueble.Ambientes;
 
         if (!string.IsNullOrEmpty(inmueble.Precio.ToString()))
-                    existingInmueble.Precio = inmueble.Precio;
+            existingInmueble.Precio = inmueble.Precio;
 
         if (!string.IsNullOrEmpty(inmueble.CoordenadaLat))
             existingInmueble.CoordenadaLat = inmueble.CoordenadaLat;
-             
+
         if (!string.IsNullOrEmpty(inmueble.CoordenadaLon))
             existingInmueble.CoordenadaLon = inmueble.CoordenadaLon;
 
@@ -99,17 +107,28 @@ public class InmueblesService : IInmueblesRepository
         // Actualizar la fecha de modificación
         existingInmueble.FechaActualizacion = DateTime.Now;
 
-    
+
         return existingInmueble;
     }
 
-    public async Task<IEnumerable<Inmueble>>  GetAllInmueblesByPropietarioIdAsync(int id)
+    public async Task<IEnumerable<Inmueble>> GetAllInmueblesByPropietarioIdAsync(int id)
     {
-         return await _context.Inmuebles
-        .Include(i => i.Tipo)
-        .Include(i => i.TipoUso)
-        .Where(i => i.IdPropietario == id) // Filter by Id_Propietario
-        .ToListAsync();
+        return await _context.Inmuebles
+       .Include(i => i.Tipo)
+       .Include(i => i.TipoUso)
+       .Where(i => i.IdPropietario == id)
+       .ToListAsync();
     }
+
+    public async Task<byte[]?> GetArchivoByInmuebleIdAsync(int id)
+    {
+        var inmueble = await _context.Inmuebles
+            .Where(i => i.Id == id)
+            .Select(i => i.ImageBlob)
+            .FirstOrDefaultAsync();
+
+        return inmueble;
+    }
+
 
 }

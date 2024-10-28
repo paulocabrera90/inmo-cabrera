@@ -44,14 +44,14 @@ public class InmueblesController : ControllerBase
     }
 
     [HttpPost]
-    public async Task<IActionResult> CreateInmueble([FromBody] Inmueble inmueble)
+    public async Task<IActionResult> CreateInmueble([FromForm] Inmueble inmueble, [FromForm] IFormFile image)
     {
         if (!ModelState.IsValid)
         {
             return BadRequest(ModelState);
         }
 
-        var createdInmueble = await _repository.CreateInmuebleAsync(inmueble);
+        var createdInmueble = await _repository.CreateInmuebleAsync(inmueble, image);
         return CreatedAtAction(nameof(GetInmueble), new { id = createdInmueble.Id }, createdInmueble);
     }
 
@@ -99,12 +99,17 @@ public class InmueblesController : ControllerBase
         return NoContent();
     }
 
-     [HttpPut]
+    [HttpPut]
     public async Task<IActionResult> UpdateInmueble([FromBody] Inmueble inmueble)
 
     {
         //CONTROLAR EL ID DEL PROPIETARIO
         int id = Convert.ToInt32(User.FindFirst("Id_propietario")?.Value);
+
+        if (id != inmueble.IdPropietario)
+        {
+            return BadRequest("No puede editar el inmueble, ya que no es propietario");
+        }
 
         var existingInmueble = await _repository.GetInmuebleByIdAsync(inmueble.Id);
         if (existingInmueble == null)
@@ -141,5 +146,18 @@ public class InmueblesController : ControllerBase
 
 
         return Ok(existingInmueble);
+    }
+
+    [HttpGet("{id}/image")]
+    public async Task<IActionResult> GetArchivo(int id)
+    {
+        var archivoBase64 = await _repository.GetArchivoByInmuebleIdAsync(id);
+        if (archivoBase64 == null)
+        {
+            return NotFound(new { mensaje = "No se encuentra archivo o imagen para el inmueble especificado." });
+        }
+
+       // return Ok(new { archivoBase64 });
+       return  Ok(File(archivoBase64, "image/jpeg"));
     }
 }
