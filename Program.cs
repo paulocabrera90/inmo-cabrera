@@ -1,4 +1,5 @@
 using System.Text;
+using System.Text.Json.Serialization;
 using Inmueble_cabrera.Models;
 using Inmueble_cabrera.Services;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -11,13 +12,17 @@ var builder = WebApplication.CreateBuilder(args);
 builder.WebHost.UseUrls("http://*:5000");
 // Add services to the container.
 
-builder.Services.AddControllers();
+builder.Services.AddControllers()
+    .AddJsonOptions(options =>
+    {
+        options.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter());
+    });
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen(c =>
 {
     //c.SwaggerDoc("v1", new OpenApiInfo { Title = "Inmobiliaria Cabrera", Version = "v1" });
-    c.SwaggerDoc("v1", new OpenApiInfo 
+    c.SwaggerDoc("v1", new OpenApiInfo
     {
         Version = "v1",
         Title = "Inmobiliaria Cabrera",
@@ -40,7 +45,7 @@ builder.Services.AddSwaggerGen(c =>
 builder.Services.AddDbContext<Inmueble_cabrera.Data.DataContext>(options =>
     options.UseMySql(builder.Configuration.GetConnectionString("DefaultConnection"), new MySqlServerVersion(new Version(8, 0, 21))));
 
- // Asegúrate de registrar tu servicio aquí
+// Asegúrate de registrar tu servicio aquí
 builder.Services.AddScoped<IPropietariosRepository, PropietariosService>();
 builder.Services.AddScoped<IInmueblesRepository, InmueblesService>();
 builder.Services.AddScoped<ITiposRepository, TiposService>();
@@ -54,8 +59,11 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
         {
             ValidateIssuerSigningKey = true,
             IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["Jwt:Key"] ?? string.Empty)),
-            ValidateIssuer = false,
-            ValidateAudience = false
+            ValidateIssuer = true,
+            ValidateAudience = true,
+            ValidateLifetime = true,
+            ValidIssuer = builder.Configuration["Jwt:Issuer"],
+            ValidAudience = builder.Configuration["Jwt:Audience"],
         };
     });
 
@@ -70,14 +78,14 @@ if (app.Environment.IsDevelopment())
         options.SerializeAsV2 = true;
     });
     app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "Inmobiliaria Cabrera V1"));
-    
+
 }
 
 app.UseCors(x => x
-	.AllowAnyOrigin()
-	.AllowAnyMethod()
-	.AllowAnyHeader());
-    
+    .AllowAnyOrigin()
+    .AllowAnyMethod()
+    .AllowAnyHeader());
+
 app.UseHttpsRedirection();
 app.UseAuthentication();
 app.UseAuthorization();

@@ -4,8 +4,6 @@ using Microsoft.EntityFrameworkCore;
 using Inmueble_cabrera.Models.Mappers;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
-using Microsoft.AspNetCore.JsonPatch;
-using Microsoft.AspNetCore.Identity.Data;
 using Inmueble_cabrera.Models.Authentication;
 
 namespace Inmueble_cabrera.Controllers;

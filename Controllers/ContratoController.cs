@@ -9,7 +9,7 @@ namespace Inmueble_cabrera.Controllers;
 
 [Route("api/[controller]")]
 [ApiController]
-//[Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
+[Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
 public class ContratosController : ControllerBase
 {
     private readonly IContratosRepository _repository;
