@@ -45,6 +45,7 @@ builder.Services.AddScoped<IPropietariosRepository, PropietariosService>();
 builder.Services.AddScoped<IInmueblesRepository, InmueblesService>();
 builder.Services.AddScoped<ITiposRepository, TiposService>();
 builder.Services.AddScoped<IEmailSender, EmailSenderService>();
+builder.Services.AddScoped<IContratosRepository, ContratosService>();
 
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
     .AddJwtBearer(options =>
