@@ -1,5 +1,6 @@
 using Inmueble_cabrera.Data;
 using Inmueble_cabrera.Models;
+using Inmueble_cabrera.Repository;
 using Microsoft.EntityFrameworkCore;
 namespace Inmueble_cabrera.Services;
 

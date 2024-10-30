@@ -16,6 +16,12 @@ public class Commons
         return new Random().Next(100000, 999999).ToString();
     }
 
+     public static int GeneratePayNumber()
+    {
+        return new Random().Next(100000, 999999);
+    }
+
+
     public static string HtmlBodyEmailRecoveryPassword(string verificationNumber)
     {
         return $@"

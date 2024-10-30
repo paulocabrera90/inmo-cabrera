@@ -1,11 +1,13 @@
 using Inmueble_cabrera.Models;
 
-namespace Inmueble_cabrera.Models;
+namespace Inmueble_cabrera.Repository;
 public interface IInmueblesRepository
 {
     Task<IEnumerable<Inmueble>> GetAllInmueblesAsync();
     
     Task<IEnumerable<Inmueble>> GetAllInmueblesByPropietarioIdAsync(int id);
+
+    Task<IEnumerable<Inmueble>> GetInmueblesByPropConContratosAsync();
 
     Task<Inmueble> GetInmuebleByIdAsync(int id);
 

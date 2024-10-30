@@ -1,9 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
-using Inmueble_cabrera.Models;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
-using Inmueble_cabrera.Services;
+using Inmueble_cabrera.Repository;
 
 namespace Inmueble_cabrera.Controllers;
 

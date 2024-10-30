@@ -1,5 +1,6 @@
 using Inmueble_cabrera.Data;
 using Inmueble_cabrera.Models;
+using Inmueble_cabrera.Repository;
 using Microsoft.EntityFrameworkCore;
 namespace Inmueble_cabrera.Services;
 
@@ -17,6 +18,7 @@ public class InmueblesService : IInmueblesRepository
         return await _context.Inmuebles
         .Include(i => i.Tipo)
         .Include(i => i.TipoUso)
+        .Include(i => i.Propietario)
         .ToListAsync();
     }
 
@@ -26,6 +28,7 @@ public class InmueblesService : IInmueblesRepository
         return await _context.Inmuebles
             .Include(i => i.Tipo)
             .Include(i => i.TipoUso)
+            .Include(i => i.Propietario)
             .FirstOrDefaultAsync(i => i.Id == id);
     }
 
@@ -121,6 +124,17 @@ public class InmueblesService : IInmueblesRepository
         return existingInmueble;
     }
 
+    public async Task<IEnumerable<Inmueble>> GetInmueblesByPropConContratosAsync()
+    {
+        return await _context.Contratos
+            .Where(c => c.Estado == EstadoContrato.Vigente)
+            .Include(c => c.Inmueble.Tipo)
+            .Include(c => c.Inmueble.TipoUso)
+            .Select(c => c.Inmueble)
+            .Distinct()
+            .ToListAsync();
+
+    }
     public async Task<IEnumerable<Inmueble>> GetAllInmueblesByPropietarioIdAsync(int id)
     {
         return await _context.Inmuebles

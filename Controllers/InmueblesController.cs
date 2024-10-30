@@ -3,6 +3,7 @@ using Inmueble_cabrera.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Inmueble_cabrera.Repository;
 
 namespace Inmueble_cabrera.Controllers;
 
@@ -53,6 +54,13 @@ public class InmueblesController : ControllerBase
         Console.WriteLine("IMAGE", image);
         var createdInmueble = await _repository.CreateInmuebleAsync(inmueble, image);
         return CreatedAtAction(nameof(GetInmueble), new { id = createdInmueble.Id }, createdInmueble);
+    }
+
+    [HttpGet("by-propietario-with-contracts")]
+    public async Task<IActionResult> GetInmueblesByPropConContratos(int id)
+    {
+      var inmuebles = await _repository.GetInmueblesByPropConContratosAsync();
+        return Ok(inmuebles);
     }
 
 

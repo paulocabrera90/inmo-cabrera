@@ -58,6 +58,6 @@ public class Inmueble
     [NotMapped]
     public string NombreInmueble => $"{Direccion} - {Tipo?.Descripcion}";
 
-    [NotMapped]
+    [ForeignKey("IdPropietario")]
     public Propietario? Propietario { get; set; }
 }

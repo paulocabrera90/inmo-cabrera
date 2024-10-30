@@ -4,96 +4,104 @@ using System.ComponentModel.DataAnnotations.Schema;
 using System.Globalization;
 
 namespace Inmueble_cabrera.Models.ContratoModels;
-public class Contrato {
+public class Contrato
+{
 
     public Contrato()
     {
-        
+
     }
-    
+
     [Key]
     public int Id { get; set; }
 
     [Required(ErrorMessage = "El inmueble es obligatorio.")]
     [ForeignKey("Inmueble")]
-    public int Id_Inmueble { get; set; }
+    [Column("Id_Inmueble")]
+    public int IdInmueble { get; set; }
 
     [Required(ErrorMessage = "El inquilino es obligatorio.")]
     [ForeignKey("Inquilino")]
-    public int Id_Inquilino { get; set; }
+    [Column("Id_Inquilino")]
+    public int IdInquilino { get; set; }
 
     [Required(ErrorMessage = "La fecha de inicio es obligatoria.")]
     [DataType(DataType.Date)]
-    public DateTime Fecha_Desde { get; set; } = DateTime.Today;
+    [Column("Fecha_Desde")]
+    public DateTime FechaDesde { get; set; } = DateTime.Today;
 
     [Required(ErrorMessage = "La fecha de finalización es obligatoria.")]
     [DataType(DataType.Date)]
-    public DateTime Fecha_Hasta { get; set; } = DateTime.Today.AddDays(30);
+    [Column("Fecha_Hasta")]
+    public DateTime FechaHasta { get; set; } = DateTime.Today.AddDays(30);
 
     [Required(ErrorMessage = "El monto del alquiler es obligatorio.")]
-    [Column("monto_alquiler", TypeName = "decimal(10, 2)")]
+    [Column("Monto_Alquiler", TypeName = "decimal(10, 2)")]
     [Range(0, double.MaxValue, ErrorMessage = "El monto debe ser un valor positivo.")]
-    public decimal Monto_Alquiler { get; set; }
+    public decimal MontoAlquiler { get; set; }
 
     [DataType(DataType.Date)]
     [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
-    public DateTime? Fecha_Finalizacion_Anticipada { get; set; }
+    [Column("Fecha_Finalizacion_Anticipada")]
+    public DateTime? FechaFinalizacionAnticipada { get; set; }
 
     [Column("multa", TypeName = "decimal(10, 2)")]
     [Range(0, double.MaxValue, ErrorMessage = "La multa debe ser un valor positivo.")]
-    public decimal? Multa { get; set; }
-
-    [Range(0, double.MaxValue, ErrorMessage = "La multa debe ser un valor positivo.")]
-    public decimal? Total { get; set; }
-
-    [Required(ErrorMessage = "El usuario de creación es obligatorio.")]
-    [ForeignKey("UsuarioCreacion")]
-    public int Id_Usuario_Creacion { get; set; }
-
-    [ForeignKey("UsuarioFinalizacion")]
-    public int? Id_Usuario_Finalizacion { get; set; }
+    public decimal? Multa { get; set; }   
 
     [DataType(DataType.DateTime)]
-    public DateTime Fecha_Creacion { get; set; } = DateTime.Now;
+    [Column("Fecha_Creacion")]
+    public DateTime FechaCreacion { get; set; } = DateTime.Now;
 
     [DataType(DataType.DateTime)]
-    public DateTime Fecha_Actualizacion { get; set; } = DateTime.Now;
+    [Column("Fecha_Actualizacion")]
+    public DateTime FechaActualizacion { get; set; } = DateTime.Now;
 
-    public int Cantidad_Cuotas { get; set; }
+    [Column("Cantidad_Cuotas")]
+    public int CantidadCuotas { get; set; }
 
-    public int Cuotas_Pagas { get; set; }
+    [Column("Cuotas_Pagas")]
+    public int CuotasPagas { get; set; }
     public bool Pagado { get; set; } = false;
 
+    [ForeignKey("IdInmueble")]
     public virtual Inmueble? Inmueble { get; set; }
-    public virtual Inquilino? Inquilino { get; set; }
-    // public virtual Usuario? Usuario_Creacion { get; set; }
-    // public virtual Usuario? Usuario_Finalizacion { get; set; }
 
-    public EstadoContrato Estado { get; set; } = EstadoContrato.Vigente;
+    [ForeignKey("IdInquilino")]
+    public virtual Inquilino? Inquilino { get; set; }
     
-    public string MontoAlquilerString() => Monto_Alquiler.ToString("C", CultureInfo.CreateSpecificCulture("es-AR"));
+    [Column("Estado", TypeName = "varchar(15)")]
+    public EstadoContrato Estado { get; set; } = EstadoContrato.Vigente;
+
+    public string MontoAlquilerString() => MontoAlquiler.ToString("C", CultureInfo.CreateSpecificCulture("es-AR"));
 
     public string? MultaString() => Multa?.ToString("C", CultureInfo.CreateSpecificCulture("es-AR"));
 
-    public void MultaCalculada() {
-        if (Fecha_Finalizacion_Anticipada.HasValue) {
-            TimeSpan tiempoTranscurrido = Fecha_Finalizacion_Anticipada.Value.Subtract(Fecha_Desde);
-            TimeSpan tiempoTotal = Fecha_Hasta.Subtract(Fecha_Desde);
+    public void MultaCalculada()
+    {
+        if (FechaFinalizacionAnticipada.HasValue)
+        {
+            TimeSpan tiempoTranscurrido = FechaFinalizacionAnticipada.Value.Subtract(FechaDesde);
+            TimeSpan tiempoTotal = FechaHasta.Subtract(FechaDesde);
 
-            if (tiempoTranscurrido.TotalDays < tiempoTotal.TotalDays / 2) {
-                Multa = Monto_Alquiler * 2;
-            } else {
-                Multa = Monto_Alquiler;
+            if (tiempoTranscurrido.TotalDays < tiempoTotal.TotalDays / 2)
+            {
+                Multa = MontoAlquiler * 2;
+            }
+            else
+            {
+                Multa = MontoAlquiler;
             }
         }
     }
 
-    public bool PagosCompletos() => Cantidad_Cuotas == Cuotas_Pagas;
+    public bool PagosCompletos() => CantidadCuotas == CuotasPagas;
 
     public bool EsFinalizado() => this.PagosCompletos() || EstadoContrato.Finalizado == Estado;
 
-    public int CantidadCuotas() {
-        int meses = ((Fecha_Hasta.Year - Fecha_Desde.Year) * 12) + Fecha_Hasta.Month - Fecha_Desde.Month;
+    public int CantidadCuotasTotal()
+    {
+        int meses = ((FechaHasta.Year - FechaDesde.Year) * 12) + FechaHasta.Month - FechaDesde.Month;
         return Math.Max(meses, 1);
     }
 
