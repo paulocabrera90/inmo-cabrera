@@ -1,6 +1,6 @@
 using System.Text;
 using System.Text.Json.Serialization;
-using Inmueble_cabrera.Models;
+using Inmueble_cabrera.Repository;
 using Inmueble_cabrera.Services;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
@@ -49,8 +49,9 @@ builder.Services.AddDbContext<Inmueble_cabrera.Data.DataContext>(options =>
 builder.Services.AddScoped<IPropietariosRepository, PropietariosService>();
 builder.Services.AddScoped<IInmueblesRepository, InmueblesService>();
 builder.Services.AddScoped<ITiposRepository, TiposService>();
-builder.Services.AddScoped<IEmailSender, EmailSenderService>();
+builder.Services.AddScoped<IEmailSenderRepository, EmailSenderService>();
 builder.Services.AddScoped<IContratosRepository, ContratosService>();
+builder.Services.AddScoped<IPagosRepository, PagosService>();
 
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
     .AddJwtBearer(options =>

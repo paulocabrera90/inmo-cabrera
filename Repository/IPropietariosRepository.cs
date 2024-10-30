@@ -1,7 +1,7 @@
 using Inmueble_cabrera.Models;
 using Microsoft.AspNetCore.JsonPatch;
 
-namespace Inmueble_cabrera.Models;
+namespace Inmueble_cabrera.Repository;
 public interface IPropietariosRepository
 {
     Task<IEnumerable<Propietario>> GetAllPropietariosAsync();

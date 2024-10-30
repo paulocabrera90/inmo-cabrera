@@ -16,20 +16,28 @@ public class DataContext : DbContext
 	public DbSet<Inmueble> Inmuebles { get; set; }
 	public DbSet<TipoInmuebleUso> Tipos_Inmueble_Uso { get; set; }
 	public DbSet<Contrato> Contratos { get; set; }
-
 	public DbSet<Inquilino> Inquilinos { get; set; }
+	public DbSet<Pago> Pagos { get; set; }
 
 	protected override void OnModelCreating(ModelBuilder modelBuilder)
 	{
 		base.OnModelCreating(modelBuilder);
 
-		// Configuración específica para la conversión de EstadoContrato a string
 		modelBuilder.Entity<Contrato>()
-		.Property(p => p.Estado)
-		.HasConversion(new ValueConverter<EstadoContrato, string>(
+			.Property(p => p.Estado)
+			.HasConversion(CreateEnumToStringConverter<EstadoContrato>());
+
+		modelBuilder.Entity<Pago>()
+			.Property(p => p.Estado)
+			.HasConversion(CreateEnumToStringConverter<EstadoPago>());
+	}
+
+	private ValueConverter<TEnum, string> CreateEnumToStringConverter<TEnum>() where TEnum : struct, Enum
+	{
+		return new ValueConverter<TEnum, string>(
 			v => v.ToString(),
-			v => (EstadoContrato)Enum.Parse(typeof(EstadoContrato), v)
-		));
+			v => (TEnum)Enum.Parse(typeof(TEnum), v)
+		);
 	}
 
 }

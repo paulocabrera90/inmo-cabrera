@@ -1,10 +1,7 @@
 using Inmueble_cabrera.Data;
-using Inmueble_cabrera.Models;
+using Inmueble_cabrera.Repository;
 using Inmueble_cabrera.Models.ContratoModels;
 using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Threading.Tasks;
 
 namespace Inmueble_cabrera.Services;
 
@@ -28,8 +25,8 @@ public class ContratosService : IContratosRepository
     public async Task<Contrato> GetContratoByIdAsync(int id)
     {
         return await _context.Contratos
-            .Include(c => c.IdInquilino)
-            .Include(c => c.IdInmueble)
+             .Include(c => c.Inquilino)
+            .Include(c => c.Inmueble)
             .FirstOrDefaultAsync(c => c.Id == id);
     }
 

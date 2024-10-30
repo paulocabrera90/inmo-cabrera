@@ -2,7 +2,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Inmueble_cabrera.Models.ContratoModels;
-using Inmueble_cabrera.Models;
+using Inmueble_cabrera.Repository;
 using Microsoft.EntityFrameworkCore;
 
 namespace Inmueble_cabrera.Controllers;

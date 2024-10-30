@@ -1,6 +1,7 @@
 namespace Inmueble_cabrera.Models;
 using System;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using Inmueble_cabrera.Models.ContratoModels;
 
 public class Pago {
@@ -12,14 +13,17 @@ public class Pago {
     public int Id { get; set; }
 
     [Required(ErrorMessage = "El ID del contrato es obligatorio.")]
-    public int Contrato_Id { get; set; }
+    [Column("Contrato_Id")]
+    public int ContratoId { get; set; }
 
     [Required(ErrorMessage = "El número de pago es obligatorio.")]
-    public int Numero_Pago { get; set; }
+    [Column("Numero_Pago")]
+    public int NumeroPago { get; set; }
 
     [Required(ErrorMessage = "La fecha de pago es obligatoria.")]
     [DataType(DataType.Date, ErrorMessage = "Formato de fecha no válido.")]
-    public DateTime Fecha_Pago { get; set; }
+    [Column("Fecha_Pago")]
+    public DateTime FechaPago { get; set; }
 
     [StringLength(255, ErrorMessage = "El detalle no puede exceder los 255 caracteres.")]
     public string Detalle { get; set; } = "";
@@ -28,12 +32,22 @@ public class Pago {
     [Range(0.01, double.MaxValue, ErrorMessage = "El importe debe ser mayor que cero.")]
     public decimal Importe { get; set; }
 
+    [Column("Estado", TypeName = "varchar(15)")]
     public EstadoPago Estado { get; set; } = EstadoPago.Pagado;
-    public int Creado_Por_Id { get; set; }
-    public int? Anulado_Por_Id { get; set; }
-    public DateTime? Fecha_Anulacion { get; set; }
 
+    [Column("Fecha_Anulacion")]
+    public DateTime? FechaAnulacion { get; set; }
+
+    [DataType(DataType.DateTime)]
+    [Column("Fecha_Creacion")]
+    public DateTime FechaCreacion { get; set; } = DateTime.Now;
+
+    [DataType(DataType.DateTime)]
+    [Column("Fecha_Actualizacion")]
+    public DateTime FechaActualizacion { get; set; } = DateTime.Now;
+
+
+    [ForeignKey("ContratoId")]
     public virtual Contrato? Contrato { get; set; }
-    // public virtual Usuario? CreadoPor { get; set; }
-    // public virtual Usuario? AnuladoPor { get; set; }
+
 }

@@ -70,7 +70,7 @@ public class Contrato
     [ForeignKey("IdInquilino")]
     public virtual Inquilino? Inquilino { get; set; }
     
-     [Column("Estado", TypeName = "varchar(15)")]
+    [Column("Estado", TypeName = "varchar(15)")]
     public EstadoContrato Estado { get; set; } = EstadoContrato.Vigente;
 
     public string MontoAlquilerString() => MontoAlquiler.ToString("C", CultureInfo.CreateSpecificCulture("es-AR"));

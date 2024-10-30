@@ -1,6 +1,6 @@
 using Inmueble_cabrera.Models;
 
-namespace Inmueble_cabrera.Models;
+namespace Inmueble_cabrera.Repository;
 public interface IInmueblesRepository
 {
     Task<IEnumerable<Inmueble>> GetAllInmueblesAsync();

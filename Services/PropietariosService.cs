@@ -1,7 +1,7 @@
 using Inmueble_cabrera.Data;
 using Inmueble_cabrera.Models;
+using Inmueble_cabrera.Repository;
 using Inmueble_cabrera.Utils;
-using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.EntityFrameworkCore;
 using Mysqlx;
 using Org.BouncyCastle.Asn1.Cmp;
@@ -10,9 +10,9 @@ namespace Inmueble_cabrera.Services;
 public class PropietariosService : IPropietariosRepository
 {
     private readonly DataContext _context;
-    private readonly IEmailSender _emailSender;
+    private readonly IEmailSenderRepository _emailSender;
 
-    public PropietariosService(DataContext context, IEmailSender emailSender)
+    public PropietariosService(DataContext context, IEmailSenderRepository emailSender)
     {
         _context = context;
         _emailSender = emailSender;

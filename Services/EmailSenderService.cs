@@ -1,7 +1,8 @@
+using Inmueble_cabrera.Repository;
 using MailKit.Net.Smtp;
 using MimeKit;
 
-public class EmailSenderService : IEmailSender
+public class EmailSenderService : IEmailSenderRepository
 {
     public async Task SendEmailAsync(EmailOptions mailOptions)
     {
