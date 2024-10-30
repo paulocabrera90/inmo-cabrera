@@ -39,7 +39,7 @@ public class PagosController : ControllerBase
         return Ok(pago);
     }
 
-     [HttpGet("by-contrato/{id}")]
+    [HttpGet("by-contrato/{id}")]
     public async Task<IActionResult> GetPagoByContratoId(int id)
     {
         var pago = await _repository.GetPagoByContratoIdAsync(id);

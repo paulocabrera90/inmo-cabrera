@@ -24,4 +24,11 @@ public class InquilinosController : ControllerBase
         return Ok(inquilinos);
     }
 
+    [HttpGet("by-inmueble/{idInmueble}")]
+    public async Task<IActionResult> GetInquilinoByImueble(int idInmueble)
+    {
+        var inquilinos = await _repository.GetInquilinoByInmuebleAsync(idInmueble);
+        return Ok(inquilinos);
+    }
+
 }
