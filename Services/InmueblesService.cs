@@ -124,6 +124,17 @@ public class InmueblesService : IInmueblesRepository
         return existingInmueble;
     }
 
+    public async Task<IEnumerable<Inmueble>> GetInmueblesByPropConContratosAsync()
+    {
+        return await _context.Contratos
+            .Where(c => c.Estado == EstadoContrato.Vigente)
+            .Include(c => c.Inmueble.Tipo)
+            .Include(c => c.Inmueble.TipoUso)
+            .Select(c => c.Inmueble)
+            .Distinct()
+            .ToListAsync();
+
+    }
     public async Task<IEnumerable<Inmueble>> GetAllInmueblesByPropietarioIdAsync(int id)
     {
         return await _context.Inmuebles

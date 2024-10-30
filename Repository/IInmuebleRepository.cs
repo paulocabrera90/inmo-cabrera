@@ -7,6 +7,8 @@ public interface IInmueblesRepository
     
     Task<IEnumerable<Inmueble>> GetAllInmueblesByPropietarioIdAsync(int id);
 
+    Task<IEnumerable<Inmueble>> GetInmueblesByPropConContratosAsync();
+
     Task<Inmueble> GetInmuebleByIdAsync(int id);
 
     Task<Inmueble> CreateInmuebleAsync(Inmueble inmueble, IFormFile? image);

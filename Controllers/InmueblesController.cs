@@ -56,6 +56,13 @@ public class InmueblesController : ControllerBase
         return CreatedAtAction(nameof(GetInmueble), new { id = createdInmueble.Id }, createdInmueble);
     }
 
+    [HttpGet("by-propietario-with-contracts")]
+    public async Task<IActionResult> GetInmueblesByPropConContratos(int id)
+    {
+      var inmuebles = await _repository.GetInmueblesByPropConContratosAsync();
+        return Ok(inmuebles);
+    }
+
 
     [HttpDelete("{id}")]
     public async Task<IActionResult> DeleteInmueble(int id)

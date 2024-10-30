@@ -16,6 +16,7 @@ public class PagosService : IPagosRepository
 
     public async Task<IEnumerable<Pago>> GetAllPagosAsync()
     {
+
           return await _context.Pagos
             .Include(p => p.Contrato)
                 .ThenInclude(contrato => contrato.Inmueble)
@@ -32,6 +33,16 @@ public class PagosService : IPagosRepository
             .Include(p => p.Contrato)
                 .ThenInclude(contrato => contrato.Inquilino)
             .FirstOrDefaultAsync(c => c.Id == id);
+    }
+
+    public async Task<Pago> GetPagoByContratoIdAsync(int idContrato)
+    {          
+        return await _context.Pagos
+            .Include(p => p.Contrato)
+                .ThenInclude(contrato => contrato.Inmueble)
+            .Include(p => p.Contrato)
+                .ThenInclude(contrato => contrato.Inquilino)
+            .FirstOrDefaultAsync(c => c.ContratoId == idContrato);
     }
 
     public async Task<Pago> CreatePagoAsync(Pago pago)

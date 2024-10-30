@@ -22,6 +22,8 @@ public class PagosController : ControllerBase
     [HttpGet]
     public async Task<IActionResult> GetAllPagos()
     {
+        int id = Convert.ToInt32(User.FindFirst("Id_propietario")?.Value);
+
         var pagos = await _repository.GetAllPagosAsync();
         return Ok(pagos);
     }
@@ -30,6 +32,17 @@ public class PagosController : ControllerBase
     public async Task<IActionResult> GetPago(int id)
     {
         var pago = await _repository.GetPagoByIdAsync(id);
+        if (pago == null)
+        {
+            return NotFound();
+        }
+        return Ok(pago);
+    }
+
+     [HttpGet("by-contrato/{id}")]
+    public async Task<IActionResult> GetPagoByContratoId(int id)
+    {
+        var pago = await _repository.GetPagoByContratoIdAsync(id);
         if (pago == null)
         {
             return NotFound();

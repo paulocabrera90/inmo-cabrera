@@ -37,6 +37,19 @@ public class ContratosController : ControllerBase
         return Ok(contrato);
     }
 
+    [HttpGet("vigentes/{idInmueble}")]
+    public async Task<IActionResult> GetContratoByIdVigentesAsync(int idInmueble, [FromQuery] bool flagVigente)
+    {
+        
+
+        var contratos = await _repository.GetContratoByIdVigentesAsync(idInmueble, flagVigente);
+        if (contratos == null)
+        {
+            return NotFound();
+        }
+        return Ok(contratos);
+    }
+
     [HttpPost]
     public async Task<IActionResult> CreateContrato([FromBody] Contrato contrato)
     {
@@ -52,7 +65,7 @@ public class ContratosController : ControllerBase
     public async Task<IActionResult> UpdateContrato(int id, [FromBody] Contrato contrato)
     {
         var existingContrato = await _repository.GetContratoByIdAsync(contrato.Id);
-         if (existingContrato == null)
+        if (existingContrato == null)
         {
             return NotFound();
         }
@@ -66,10 +79,10 @@ public class ContratosController : ControllerBase
             return BadRequest("ID mismatch");
         }
 
-         try
+        try
         {
             // existingContrato = await _repository.ApplyChanges(existingContrato, contrato);
-            await _repository.UpdateContratoAsync(existingContrato);;
+            await _repository.UpdateContratoAsync(existingContrato); ;
         }
         catch (DbUpdateConcurrencyException)
         {

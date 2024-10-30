@@ -30,6 +30,26 @@ public class ContratosService : IContratosRepository
             .FirstOrDefaultAsync(c => c.Id == id);
     }
 
+    public async Task<IEnumerable<Contrato>> GetContratoByIdVigentesAsync(int idInmueble, bool flagVigente)
+    {
+
+        IQueryable<Contrato> query = _context.Contratos
+        .Include(c => c.Inquilino)
+        .Include(c => c.Inmueble);
+
+        if (flagVigente)
+        {
+            DateTime currentDate = DateTime.Today;
+            query = query.Where(
+                c => c.Estado == Models.EstadoContrato.Vigente 
+                    && c.FechaHasta >= currentDate 
+                    && c.IdInmueble == idInmueble 
+                    && (!c.FechaFinalizacionAnticipada.HasValue || c.FechaFinalizacionAnticipada >= currentDate));
+        }
+
+        return await query.ToListAsync();
+    }
+
     public async Task<Contrato> CreateContratoAsync(Contrato contrato)
     {
         contrato.FechaCreacion = DateTime.Today;
@@ -62,14 +82,4 @@ public class ContratosService : IContratosRepository
     {
         return _context.Contratos.Any(c => c.Id == id);
     }
-
-    // Task<Contrato> UpdateContratoAsync(Contrato contrato)
-    // {
-    //     throw new NotImplementedException();
-    // }
-
-    // Task<bool> IContratosRepository.ContratoExists(int id)
-    // {
-    //     return _context.Contratos.Any(c => c.Id == id);
-    // }
 }
