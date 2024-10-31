@@ -37,12 +37,12 @@ public class ContratosController : ControllerBase
         return Ok(contrato);
     }
 
-    [HttpGet("vigentes/{idInmueble}")]
-    public async Task<IActionResult> GetContratoByIdVigentesAsync(int idInmueble, [FromQuery] bool flagVigente)
-    {
-        
+    [HttpGet("vigentes")]
+    public async Task<IActionResult> GetContratoByIdVigentesAsync([FromQuery] bool flagVigente)
+    {        
 
-        var contratos = await _repository.GetContratoByIdVigentesAsync(idInmueble, flagVigente);
+        int idPropietario = Convert.ToInt32(User.FindFirst("Id_propietario")?.Value);
+        var contratos = await _repository.GetContratoByIdVigentesAsync(idPropietario, flagVigente);
         if (contratos == null)
         {
             return NotFound();

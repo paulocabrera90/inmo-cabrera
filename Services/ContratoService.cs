@@ -30,12 +30,13 @@ public class ContratosService : IContratosRepository
             .FirstOrDefaultAsync(c => c.Id == id);
     }
 
-    public async Task<IEnumerable<Contrato>> GetContratoByIdVigentesAsync(int idInmueble, bool flagVigente)
+    public async Task<IEnumerable<Contrato>> GetContratoByIdVigentesAsync(int idPropietario, bool flagVigente)
     {
 
         IQueryable<Contrato> query = _context.Contratos
         .Include(c => c.Inquilino)
-        .Include(c => c.Inmueble);
+        .Include(c => c.Inmueble)
+        .Where(c => c.Inmueble.IdPropietario == idPropietario);
 
         if (flagVigente)
         {
@@ -43,7 +44,6 @@ public class ContratosService : IContratosRepository
             query = query.Where(
                 c => c.Estado == Models.EstadoContrato.Vigente 
                     && c.FechaHasta >= currentDate 
-                    && c.IdInmueble == idInmueble 
                     && (!c.FechaFinalizacionAnticipada.HasValue || c.FechaFinalizacionAnticipada >= currentDate));
         }
 

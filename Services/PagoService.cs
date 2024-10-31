@@ -17,16 +17,16 @@ public class PagosService : IPagosRepository
     public async Task<IEnumerable<Pago>> GetAllPagosAsync()
     {
 
-          return await _context.Pagos
-            .Include(p => p.Contrato)
-                .ThenInclude(contrato => contrato.Inmueble)
-            .Include(p => p.Contrato)
-                .ThenInclude(contrato => contrato.Inquilino)
-            .ToListAsync();
+        return await _context.Pagos
+          .Include(p => p.Contrato)
+              .ThenInclude(contrato => contrato.Inmueble)
+          .Include(p => p.Contrato)
+              .ThenInclude(contrato => contrato.Inquilino)
+          .ToListAsync();
     }
 
     public async Task<Pago> GetPagoByIdAsync(int id)
-    {          
+    {
         return await _context.Pagos
             .Include(p => p.Contrato)
                 .ThenInclude(contrato => contrato.Inmueble)
@@ -35,15 +35,17 @@ public class PagosService : IPagosRepository
             .FirstOrDefaultAsync(c => c.Id == id);
     }
 
-    public async Task<Pago> GetPagoByContratoIdAsync(int idContrato)
-    {          
+    public async Task<IEnumerable<Pago>> GetPagoByContratoIdAsync(int idContrato)
+    {
         return await _context.Pagos
             .Include(p => p.Contrato)
                 .ThenInclude(contrato => contrato.Inmueble)
             .Include(p => p.Contrato)
                 .ThenInclude(contrato => contrato.Inquilino)
-            .FirstOrDefaultAsync(c => c.ContratoId == idContrato);
+            .Where(p => p.ContratoId == idContrato)
+            .ToListAsync();
     }
+
 
     public async Task<Pago> CreatePagoAsync(Pago pago)
     {

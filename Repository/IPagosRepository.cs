@@ -4,7 +4,7 @@ namespace Inmueble_cabrera.Repository;
 public interface IPagosRepository
 {
     Task<IEnumerable<Pago>> GetAllPagosAsync();
-    Task<Pago> GetPagoByContratoIdAsync(int idContrato);
+    Task<IEnumerable<Pago>> GetPagoByContratoIdAsync(int idContrato);
     Task<Pago> GetPagoByIdAsync(int id);
 
     Task<Pago> CreatePagoAsync(Pago pago);
