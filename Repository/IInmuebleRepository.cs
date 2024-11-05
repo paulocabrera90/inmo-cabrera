@@ -7,7 +7,7 @@ public interface IInmueblesRepository
     
     Task<IEnumerable<Inmueble>> GetAllInmueblesByPropietarioIdAsync(int id);
 
-    Task<IEnumerable<Inmueble>> GetInmueblesByPropConContratosAsync();
+    Task<IEnumerable<Inmueble>> GetInmueblesByPropConContratosAsync(int id);
 
     Task<Inmueble> GetInmuebleByIdAsync(int id);
 

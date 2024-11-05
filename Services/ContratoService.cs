@@ -50,34 +50,6 @@ public class ContratosService : IContratosRepository
         return await query.ToListAsync();
     }
 
-    public async Task<Contrato> CreateContratoAsync(Contrato contrato)
-    {
-        contrato.FechaCreacion = DateTime.Today;
-        contrato.FechaActualizacion = DateTime.Today;
-
-        _context.Contratos.Add(contrato);
-        await _context.SaveChangesAsync();
-        return contrato;
-    }
-
-    public async Task UpdateContratoAsync(Contrato contrato)
-    {
-        contrato.FechaActualizacion = DateTime.Today;
-
-        _context.Attach(contrato).State = EntityState.Modified;
-        await _context.SaveChangesAsync();
-    }
-
-    public async Task DeleteContratoAsync(int id)
-    {
-        var contrato = await _context.Contratos.FindAsync(id);
-        if (contrato != null)
-        {
-            _context.Contratos.Remove(contrato);
-            await _context.SaveChangesAsync();
-        }
-    }
-
     public bool ContratoExists(int id)
     {
         return _context.Contratos.Any(c => c.Id == id);

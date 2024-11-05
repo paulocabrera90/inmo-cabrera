@@ -124,10 +124,10 @@ public class InmueblesService : IInmueblesRepository
         return existingInmueble;
     }
 
-    public async Task<IEnumerable<Inmueble>> GetInmueblesByPropConContratosAsync()
+    public async Task<IEnumerable<Inmueble>> GetInmueblesByPropConContratosAsync(int id)
     {
         return await _context.Contratos
-            .Where(c => c.Estado == EstadoContrato.Vigente)
+            .Where(c => c.Estado == EstadoContrato.Vigente && c.Inmueble.IdPropietario == id)
             .Include(c => c.Inmueble.Tipo)
             .Include(c => c.Inmueble.TipoUso)
             .Select(c => c.Inmueble)

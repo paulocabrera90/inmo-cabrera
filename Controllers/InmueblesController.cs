@@ -57,9 +57,10 @@ public class InmueblesController : ControllerBase
     }
 
     [HttpGet("by-propietario-with-contracts")]
-    public async Task<IActionResult> GetInmueblesByPropConContratos(int id)
+    public async Task<IActionResult> GetInmueblesByPropConContratos()
     {
-      var inmuebles = await _repository.GetInmueblesByPropConContratosAsync();
+      int id = Convert.ToInt32(User.FindFirst("Id_propietario")?.Value);
+      var inmuebles = await _repository.GetInmueblesByPropConContratosAsync(id);
         return Ok(inmuebles);
     }
 

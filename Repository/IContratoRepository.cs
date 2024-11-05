@@ -9,11 +9,5 @@ public interface IContratosRepository
     Task<IEnumerable<Contrato>> GetAllContratosAsync();
     Task<IEnumerable<Contrato>> GetContratoByIdVigentesAsync(int idPropietario, bool flagVigente);
     Task<Contrato> GetContratoByIdAsync(int id);
-    Task<Contrato> CreateContratoAsync(Contrato contrato);
-
-    Task UpdateContratoAsync(Contrato contrato);
-
-    Task DeleteContratoAsync(int id);
-
     bool ContratoExists(int id);
 }
