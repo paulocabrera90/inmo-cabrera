@@ -1,0 +1,1015 @@
+{
+	"info": {
+		"_postman_id": "f93162bd-45cf-4bf3-ab04-2af27395d820",
+		"name": "Inmobiliaria-Cabrera",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "15687787"
+	},
+	"item": [
+		{
+			"name": "Propietario",
+			"item": [
+				{
+					"name": "Reset Password",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{tokenInmobiliaria}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "accept",
+								"value": "application/json"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"email\": \"paulocabrera90@gmail.com\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:5000/api/Propietarios/reset-password",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"api",
+								"Propietarios",
+								"reset-password"
+							]
+						},
+						"description": "Generated from cURL: curl -X 'POST' \\\n  'http://localhost:5000/api/Propietarios/reset-password' \\\n  -H 'accept: application/json' \\\n  -H 'Content-Type: application/json' \\\n  -d '{\n  \"email\": \"string\"\n}'"
+					},
+					"response": []
+				},
+				{
+					"name": "Get Propietarios",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{tokenInmobiliaria}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "accept",
+								"value": "application/json"
+							}
+						],
+						"url": {
+							"raw": "http://{{url-Inmo}}/api/Propietarios",
+							"protocol": "http",
+							"host": [
+								"{{url-Inmo}}"
+							],
+							"path": [
+								"api",
+								"Propietarios"
+							]
+						},
+						"description": "Generated from cURL: curl -X 'GET' \\\n  'http://localhost:5291/api/Propietarios' \\\n  -H 'accept: application/json'"
+					},
+					"response": []
+				},
+				{
+					"name": "Create Propietario",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{tokenInmobiliaria}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "accept",
+								"value": "application/json"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"dni\": \"34159821\",\n  \"nombre\": \"Gonzalo\",\n  \"apellido\": \"Gutierrez\",\n  \"email\": \"gonzalog1@gmail.com\",\n  \"direccion\": \"9 julio 123\",\n  \"usuario\": \"paulocabrera\",\n  \"password\": \"Paulo.#!\",\n  \"fecha_Creacion\": \"2024-10-14T14:08:35.361Z\",\n  \"fecha_Actualizacion\": \"2024-10-14T14:08:35.361Z\",\n  \"telefono_Area\": \"2664\",\n  \"telefono_Numero\": \"745225\",\n  \"estado\": 1\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://{{url-Inmo}}/api/Propietarios",
+							"protocol": "http",
+							"host": [
+								"{{url-Inmo}}"
+							],
+							"path": [
+								"api",
+								"Propietarios"
+							]
+						},
+						"description": "Generated from cURL: curl -X 'POST' \\\n  'http://localhost:5291/api/Propietarios' \\\n  -H 'accept: application/json' \\\n  -H 'Content-Type: application/json' \\\n  -d '{\n  \"id\": 0,\n  \"dni\": \"01789619\",\n  \"nombre\": \"string\",\n  \"apellido\": \"string\",\n  \"email\": \"user@example.com\",\n  \"direccion\": \"string\",\n  \"usuario\": \"string\",\n  \"password\": \"string\",\n  \"fecha_Creacion\": \"2024-10-14T14:08:35.361Z\",\n  \"fecha_Actualizacion\": \"2024-10-14T14:08:35.361Z\",\n  \"telefono_Area\": \"11974413052737721856607852005605538556\",\n  \"telefono_Numero\": \"522097317896021083788773902089529208137929119887222043152322323915352826779927994\",\n  \"estado\": 0\n}'"
+					},
+					"response": []
+				},
+				{
+					"name": "GetPropietario",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{tokenInmobiliaria}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "accept",
+								"value": "application/json"
+							},
+							{
+								"key": "Authorization",
+								"value": "••••••"
+							}
+						],
+						"url": {
+							"raw": "http://{{url-Inmo}}/api/propietarios/{{id_propietario}}",
+							"protocol": "http",
+							"host": [
+								"{{url-Inmo}}"
+							],
+							"path": [
+								"api",
+								"propietarios",
+								"{{id_propietario}}"
+							]
+						},
+						"description": "Generated from cURL: curl --location 'http://192.168.1.181:5000/api/Propietarios/8' \\\n--header 'accept: application/json' \\\n--header 'Authorization: ••••••'"
+					},
+					"response": []
+				},
+				{
+					"name": "Update perfil Profesional",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{tokenInmobiliaria}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [
+							{
+								"key": "accept",
+								"value": "application/json"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"nombre\": \"David\",\n  \"apellido\": \"Cabrera\",\n  \"email\": \"user@example.com\",\n\n  \"telefono_area\": \"26643\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://{{url-Inmo}}/api/Propietarios/8",
+							"protocol": "http",
+							"host": [
+								"{{url-Inmo}}"
+							],
+							"path": [
+								"api",
+								"Propietarios",
+								"8"
+							]
+						},
+						"description": "Generated from cURL: curl -X 'PUT' \\\n  'http://localhost:5000/api/Propietarios/8' \\\n  -H 'accept: application/json' \\\n  -H 'Content-Type: application/json' \\\n  -d '{\n  \"id\": 8,\n  \"dni\": \"5602348\",\n  \"nombre\": \"string\",\n  \"apellido\": \"string\",\n  \"email\": \"user@example.com\",\n  \"direccion\": \"string\",\n  \"usuario\": \"string\",\n  \"password\": \"string\",\n  \"fecha_Creacion\": \"2024-10-19T04:43:44.034Z\",\n  \"fecha_Actualizacion\": \"2024-10-19T04:43:44.034Z\",\n  \"telefono_Area\": \"224294247227831843180495047854487136209584060517984166880868810203748\",\n  \"telefono_Numero\": \"172050326557016\",\n  \"estado\": 0\n}'"
+					},
+					"response": []
+				},
+				{
+					"name": "http://192.168.1.181:5000/api/Propietarios/8",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{tokenInmobiliaria}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "accept",
+								"value": "application/json"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJnb256YWxvZzFAZ21haWwuY29tIiwianRpIjoiMTYzNTg3ODAtNjU3NC00N2FmLWFhMzktODFmOWFiZDExYmMzIiwiZXhwIjoxNzI5MzE4MTk3fQ.jtY2Ps9r6s679XjnKHHMhGBIZVgbyffLFVO1bUebqfE"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"nombre\": \"David\",\n  \"apellido\": \"Cabrera\",\n  \"email\": \"user@example.com\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://{{url-Inmo}}/api/Propietarios/8",
+							"protocol": "http",
+							"host": [
+								"{{url-Inmo}}"
+							],
+							"path": [
+								"api",
+								"Propietarios",
+								"8"
+							]
+						},
+						"description": "Generated from cURL: curl --location --request PATCH 'http://192.168.1.181:5000/api/Propietarios/8' \\\n--header 'accept: application/json' \\\n--header 'Content-Type: application/json' \\\n--header 'Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJnb256YWxvZzFAZ21haWwuY29tIiwianRpIjoiMTYzNTg3ODAtNjU3NC00N2FmLWFhMzktODFmOWFiZDExYmMzIiwiZXhwIjoxNzI5MzE4MTk3fQ.jtY2Ps9r6s679XjnKHHMhGBIZVgbyffLFVO1bUebqfE' \\\n--data-raw '[\n  { \"op\": \"replace\", \"path\": \"/Nombre\", \"value\": \"David\" },\n  { \"op\": \"replace\", \"path\": \"/Apellido\", \"value\": \"Cabrera\" },\n  { \"op\": \"replace\", \"path\": \"/Email\", \"value\": \"user@example.com\" }\n]'\n"
+					},
+					"response": []
+				},
+				{
+					"name": "Change password",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{tokenInmobiliaria}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "accept",
+								"value": "application/json"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"id\": 8,\n  \"currentPassword\": \"123456\",\n  \"newPassword\": \"123456\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://{{url-Inmo}}/api/authentication/changePassword",
+							"protocol": "http",
+							"host": [
+								"{{url-Inmo}}"
+							],
+							"path": [
+								"api",
+								"authentication",
+								"changePassword"
+							]
+						},
+						"description": "Generated from cURL: curl -X 'POST' \\\n  'http://localhost:5000/api/Authentication/changePassword' \\\n  -H 'accept: application/json' \\\n  -H 'Content-Type: application/json' \\\n  -d '{\n  \"id\": 0,\n  \"email\": \"user@example.com\",\n  \"currentPassword\": \"string\",\n  \"newPassword\": \"string\"\n}'"
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Inmuebles",
+			"item": [
+				{
+					"name": "Tipos",
+					"item": [
+						{
+							"name": "Get Tipos Inmuebles uso",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "accept",
+										"value": "application/json"
+									}
+								],
+								"url": {
+									"raw": "http://localhost:5000/api/Tipos/tipos-inmueble-uso",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "5000",
+									"path": [
+										"api",
+										"Tipos",
+										"tipos-inmueble-uso"
+									]
+								},
+								"description": "Generated from cURL: curl -X 'GET' \\\n  'http://localhost:5000/api/Tipos/tipos-inmueble-uso' \\\n  -H 'accept: application/json'"
+							},
+							"response": []
+						},
+						{
+							"name": "Get Tipos Inmuebles",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "accept",
+										"value": "application/json"
+									}
+								],
+								"url": {
+									"raw": "http://localhost:5000/api/Tipos/tipos-inmueble",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "5000",
+									"path": [
+										"api",
+										"Tipos",
+										"tipos-inmueble"
+									]
+								},
+								"description": "Generated from cURL: curl -X 'GET' \\\n  'http://localhost:5000/api/Tipos/tipos-inmueble-uso' \\\n  -H 'accept: application/json'"
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Get Inmuiebles Propietario",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{tokenInmobiliaria}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://{{url-Inmo}}/api/inmuebles/by-propietario/8",
+							"protocol": "http",
+							"host": [
+								"{{url-Inmo}}"
+							],
+							"path": [
+								"api",
+								"inmuebles",
+								"by-propietario",
+								"8"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Inmuebles",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{tokenInmobiliaria}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "accept",
+								"value": "application/json"
+							}
+						],
+						"url": {
+							"raw": "http://{{url-Inmo}}/api/inmuebles",
+							"protocol": "http",
+							"host": [
+								"{{url-Inmo}}"
+							],
+							"path": [
+								"api",
+								"inmuebles"
+							]
+						},
+						"description": "Generated from cURL: curl -X 'GET' \\\n  'http://localhost:5291/api/Propietarios' \\\n  -H 'accept: application/json'"
+					},
+					"response": []
+				},
+				{
+					"name": "by-propietario-with-contracts",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{tokenInmobiliaria}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "accept",
+								"value": "application/json"
+							}
+						],
+						"url": {
+							"raw": "http://{{url-Inmo}}/api/inmuebles/by-propietario-with-contracts",
+							"protocol": "http",
+							"host": [
+								"{{url-Inmo}}"
+							],
+							"path": [
+								"api",
+								"inmuebles",
+								"by-propietario-with-contracts"
+							]
+						},
+						"description": "Generated from cURL: curl -X 'GET' \\\n  'http://localhost:5291/api/Propietarios' \\\n  -H 'accept: application/json'"
+					},
+					"response": []
+				},
+				{
+					"name": "GetInmueble id",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{tokenInmobiliaria}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "accept",
+								"value": "application/json"
+							}
+						],
+						"url": {
+							"raw": "http://{{url-Inmo}}/api/inmuebles",
+							"protocol": "http",
+							"host": [
+								"{{url-Inmo}}"
+							],
+							"path": [
+								"api",
+								"inmuebles"
+							]
+						},
+						"description": "Generated from cURL: curl -X 'GET' \\\n  'http://localhost:5291/api/Propietarios' \\\n  -H 'accept: application/json'"
+					},
+					"response": []
+				},
+				{
+					"name": "GetInmueble id Image",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{tokenInmobiliaria}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "accept",
+								"value": "application/json"
+							}
+						],
+						"url": {
+							"raw": "http://{{url-Inmo}}/api/inmuebles",
+							"protocol": "http",
+							"host": [
+								"{{url-Inmo}}"
+							],
+							"path": [
+								"api",
+								"inmuebles"
+							]
+						},
+						"description": "Generated from cURL: curl -X 'GET' \\\n  'http://localhost:5291/api/Propietarios' \\\n  -H 'accept: application/json'"
+					},
+					"response": []
+				},
+				{
+					"name": "Create Inmueble data",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{tokenInmobiliaria}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "accept",
+								"value": "application/json"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"id\": 0,\n  \"direccion\": \"Lujan 321\",\n  \"idTipoInmuebleUso\": 2,\n  \"idTipoInmueble\": 1,\n  \"ambientes\": 2,\n  \"coordenadaLat\": -32.123231,\n  \"coordenadaLon\": -61.123123,\n  \"precio\": 23123.02,\n  \"idPropietario\": 0,\n  \"activo\": true,\n  \"fechaCreacion\": \"2024-10-26T07:10:01.431Z\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://{{url-Inmo}}}/api/Inmuebles",
+							"protocol": "http",
+							"host": [
+								"{{url-Inmo}}}"
+							],
+							"path": [
+								"api",
+								"Inmuebles"
+							]
+						},
+						"description": "Generated from cURL: curl -X 'POST' \\\n  'http://localhost:5000/api/Inmuebles' \\\n  -H 'accept: application/json' \\\n  -H 'Content-Type: application/json' \\\n  -d '{\n  \"id\": 0,\n  \"direccion\": \"string\",\n  \"idTipoInmuebleUso\": 0,\n  \"tipoUso\": {\n    \"id\": 0,\n    \"descripcion\": \"string\",\n    \"fecha_Creacion\": \"2024-10-26T07:10:01.431Z\",\n    \"fecha_Actualizacion\": \"2024-10-26T07:10:01.431Z\"\n  },\n  \"idTipoInmueble\": 0,\n  \"tipo\": {\n    \"id\": 0,\n    \"descripcion\": \"string\",\n    \"fecha_Creacion\": \"2024-10-26T07:10:01.431Z\",\n    \"fecha_Actualizacion\": \"2024-10-26T07:10:01.431Z\"\n  },\n  \"ambientes\": 0,\n  \"coordenadaLat\": \"string\",\n  \"coordenadaLon\": \"string\",\n  \"precio\": 0,\n  \"idPropietario\": 0,\n  \"activo\": true,\n  \"propietario\": {\n    \"id\": 0,\n    \"dni\": \"1529732\",\n    \"nombre\": \"string\",\n    \"apellido\": \"string\",\n    \"email\": \"user@example.com\",\n    \"direccion\": \"string\",\n    \"usuario\": \"string\",\n    \"password\": \"string\",\n    \"fechaCreacion\": \"2024-10-26T07:10:01.431Z\",\n    \"fechaActualizacion\": \"2024-10-26T07:10:01.431Z\",\n    \"telefonoArea\": \"92423881691557929816560740952854270136426139\",\n    \"telefonoNumero\": \"9151650775618701640180854706558439094988731890807020327012995174373701510663791052914287\",\n    \"estado\": 0,\n    \"resetToken\": \"string\",\n    \"resetTokenExpires\": \"2024-10-26T07:10:01.431Z\"\n  },\n  \"fechaCreacion\": \"2024-10-26T07:10:01.431Z\",\n  \"fechaActualizacion\": \"2024-10-26T07:10:01.431Z\"\n}'"
+					},
+					"response": []
+				},
+				{
+					"name": "http://192.168.1.181:5000/api/Inmuebles",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "accept",
+								"value": "application/json"
+							},
+							{
+								"key": "Authorization",
+								"value": "••••••"
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "direccion",
+									"value": "Lujan 321",
+									"type": "text"
+								},
+								{
+									"key": "idTipoInmuebleUso",
+									"value": "2",
+									"type": "text"
+								},
+								{
+									"key": "idTipoInmueble",
+									"value": "1",
+									"type": "text"
+								},
+								{
+									"key": "ambientes",
+									"value": "2",
+									"type": "text"
+								},
+								{
+									"key": "coordenadaLat",
+									"value": "-32.123231",
+									"type": "text"
+								},
+								{
+									"key": "coordenadaLon",
+									"value": "-61.123123",
+									"type": "text"
+								},
+								{
+									"key": "precio",
+									"value": "23123.02",
+									"type": "text"
+								},
+								{
+									"key": "idPropietario",
+									"value": "8",
+									"type": "text"
+								},
+								{
+									"key": "activo",
+									"value": "true",
+									"type": "text"
+								},
+								{
+									"key": "fechaCreacion",
+									"value": "2024-10-26T07:10:01.431Z",
+									"type": "text"
+								},
+								{
+									"key": "archivo",
+									"type": "file",
+									"src": "/path/to/your/image.jpg"
+								}
+							]
+						},
+						"url": {
+							"raw": "http://192.168.1.181:5000/api/Inmuebles",
+							"protocol": "http",
+							"host": [
+								"192",
+								"168",
+								"1",
+								"181"
+							],
+							"port": "5000",
+							"path": [
+								"api",
+								"Inmuebles"
+							]
+						},
+						"description": "Generated from cURL: curl --location --globoff 'http://192.168.1.181:5000/api/Inmuebles' \\\n--header 'accept: application/json' \\\n--header 'Authorization: ••••••' \\\n--form 'direccion=\"Lujan 321\"' \\\n--form 'idTipoInmuebleUso=2' \\\n--form 'idTipoInmueble=1' \\\n--form 'ambientes=2' \\\n--form 'coordenadaLat=\"-32.123231\"' \\\n--form 'coordenadaLon=\"-61.123123\"' \\\n--form 'precio=23123.02' \\\n--form 'idPropietario=8' \\\n--form 'activo=true' \\\n--form 'fechaCreacion=\"2024-10-26T07:10:01.431Z\"' \\\n--form 'archivo=@/path/to/your/image.jpg'\n"
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Contrato",
+			"item": [
+				{
+					"name": "Get Contrato",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{tokenInmobiliaria}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "accept",
+								"value": "application/json"
+							}
+						],
+						"url": {
+							"raw": "http://{{url-Inmo}}/api/inmuebles",
+							"protocol": "http",
+							"host": [
+								"{{url-Inmo}}"
+							],
+							"path": [
+								"api",
+								"inmuebles"
+							]
+						},
+						"description": "Generated from cURL: curl -X 'GET' \\\n  'http://localhost:5291/api/Propietarios' \\\n  -H 'accept: application/json'"
+					},
+					"response": []
+				},
+				{
+					"name": "Get Contrato Id",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{tokenInmobiliaria}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "accept",
+								"value": "application/json"
+							}
+						],
+						"url": {
+							"raw": "http://{{url-Inmo}}/api/inmuebles",
+							"protocol": "http",
+							"host": [
+								"{{url-Inmo}}"
+							],
+							"path": [
+								"api",
+								"inmuebles"
+							]
+						},
+						"description": "Generated from cURL: curl -X 'GET' \\\n  'http://localhost:5291/api/Propietarios' \\\n  -H 'accept: application/json'"
+					},
+					"response": []
+				},
+				{
+					"name": "Get Contrato Vigentes",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{tokenInmobiliaria}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "flagVigente",
+								"value": "true",
+								"disabled": true
+							}
+						],
+						"url": {
+							"raw": "http://{{url-Inmo}}/api/Contratos/vigentes?flagVigente=false",
+							"protocol": "http",
+							"host": [
+								"{{url-Inmo}}"
+							],
+							"path": [
+								"api",
+								"Contratos",
+								"vigentes"
+							],
+							"query": [
+								{
+									"key": "flagVigente",
+									"value": "false"
+								}
+							]
+						},
+						"description": "Generated from cURL: curl -X 'GET' \\\n  'http://localhost:5291/api/Propietarios' \\\n  -H 'accept: application/json'"
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Pago",
+			"item": [
+				{
+					"name": "Pagos Get",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{tokenInmobiliaria}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://{{url-Inmo}}/api/pagos",
+							"protocol": "http",
+							"host": [
+								"{{url-Inmo}}"
+							],
+							"path": [
+								"api",
+								"pagos"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Pagos Get By Contrato Id",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{tokenInmobiliaria}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://{{url-Inmo}}/api/pagos",
+							"protocol": "http",
+							"host": [
+								"{{url-Inmo}}"
+							],
+							"path": [
+								"api",
+								"pagos"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Inquilino",
+			"item": [
+				{
+					"name": "Get INquilinos",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{tokenInmobiliaria}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://{{url-Inmo}}/api/inquilinos",
+							"protocol": "http",
+							"host": [
+								"{{url-Inmo}}"
+							],
+							"path": [
+								"api",
+								"inquilinos"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Inquilino by inmuieble",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{tokenInmobiliaria}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://{{url-Inmo}}/api/inquilinos",
+							"protocol": "http",
+							"host": [
+								"{{url-Inmo}}"
+							],
+							"path": [
+								"api",
+								"inquilinos"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Login",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"var json = JSON.parse(responseBody);",
+							"pm.globals.set(\"tokenInmobiliaria\", json.tokenSession);",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "accept",
+						"value": "application/json"
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n \"email\": \"paulocabrera90@gmail.com\",\n  \"password\": \"123456\"\n}\n\n/*\n  {\n     \"usuario\": \"gonzalogg\",\n  \"password\": \"654321\",\n  }*/"
+				},
+				"url": {
+					"raw": "http://{{url-Inmo}}/api/authentication/login",
+					"protocol": "http",
+					"host": [
+						"{{url-Inmo}}"
+					],
+					"path": [
+						"api",
+						"authentication",
+						"login"
+					]
+				},
+				"description": "Generated from cURL: curl -X 'POST' \\\n  'http://localhost:5291/api/Authentication/login' \\\n  -H 'accept: application/json' \\\n  -H 'Content-Type: application/json' \\\n  -d '{\n  \"usuario\": \"prueba\",\n  \"password\": \"123456\"\n}'"
+			},
+			"response": []
+		}
+	],
+	"variable": [
+		{
+			"key": "url",
+			"value": "",
+			"type": "default"
+		}
+	]
+}
